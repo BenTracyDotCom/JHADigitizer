@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('jhas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('title');
+            $table->string('author');
+            $table->string('job');
         });
     }
 
