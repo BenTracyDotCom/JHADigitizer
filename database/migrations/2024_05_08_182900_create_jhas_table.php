@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('title');
             $table->string('author');
-            $table->string('job');
+            $table->string('description');
         });
     }
 
