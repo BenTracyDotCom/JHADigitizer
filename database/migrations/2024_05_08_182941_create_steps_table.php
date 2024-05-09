@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->string('title');
             $table->string('image')->nullable()->default(null);
-            $table->foreignIdFor(\App\Models\Jha::class);
+            $table->foreignIdFor(\App\Models\Jha::class)->onDelete('cascade');
         });
     }
 

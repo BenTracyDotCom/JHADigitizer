@@ -87,6 +87,9 @@ class HazardController extends Controller
      */
     public function destroy(hazard $hazard)
     {
-        //
+      if($hazard){
+        $hazard->delete();
+      }
+      return response('Record successfully removed', 200);
     }
 }

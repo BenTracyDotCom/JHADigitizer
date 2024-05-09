@@ -85,6 +85,9 @@ class ControlController extends Controller
    */
   public function destroy(control $control)
   {
-    //
+    if($control){
+      $control->delete();
+    }
+    return response('Record successfully removed', 200);
   }
 }

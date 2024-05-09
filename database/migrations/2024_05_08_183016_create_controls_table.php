@@ -13,9 +13,10 @@ return new class extends Migration {
     Schema::create('controls', function (Blueprint $table) {
       $table->id();
       $table->timestamps();
+      $table->softDeletes();
       $table->string('title');
       $table->string('status')->default('unaddressed');
-      $table->foreignIdFor(\App\Models\Hazard::class);
+      $table->foreignIdFor(\App\Models\Hazard::class)->onDelete('cascade');;
     });
   }
 

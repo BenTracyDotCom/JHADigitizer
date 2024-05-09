@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('hazards', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->string('title');
-            $table->foreignIdFor(\App\Models\Step::class);
+            $table->foreignIdFor(\App\Models\Step::class)->onDelete('cascade');
         });
     }
 

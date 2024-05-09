@@ -90,6 +90,9 @@ class JhaController extends Controller
    */
   public function destroy(jha $jha)
   {
-    //
+    if($jha){
+      $jha->delete();
+    }
+    return response('Record successfully removed', 200);
   }
 }

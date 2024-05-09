@@ -92,6 +92,9 @@ class StepController extends Controller
      */
     public function destroy(step $step)
     {
-        //
+      if($step){
+        $step->delete();
+      }
+      return response('Record successfully removed', 200);
     }
 }
