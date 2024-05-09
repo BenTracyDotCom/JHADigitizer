@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
 
        // Create 10 JHA's
       Jha::factory(10)->create()->each(function ($jha) {
-        // Create some steps for each JHA
+        // Create 4 steps for each JHA
         $steps = Step::factory(4)->create(['jha_id' => $jha->id]);
         $steps->each(function ($step) {
-          // Create some hazards for each step
+          // Create 2 hazards for each step
           $hazards = Hazard::factory(2)->create(['step_id' => $step->id]);
           // Add a control for each hazard
           $hazards->each(function ($hazard) {
