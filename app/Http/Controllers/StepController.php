@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorestepsRequest;
 use App\Http\Requests\UpdatestepsRequest;
-use App\Models\steps;
+use App\Models\step;
 
-class StepsController extends Controller
+class StepController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class StepsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(steps $steps)
+    public function show(step $step)
     {
         //
     }
@@ -43,7 +43,7 @@ class StepsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(steps $steps)
+    public function edit(step $step)
     {
         //
     }
@@ -51,7 +51,7 @@ class StepsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatestepsRequest $request, steps $steps)
+    public function update(UpdatestepsRequest $request, step $step)
     {
         //
     }
@@ -59,7 +59,7 @@ class StepsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(steps $steps)
+    public function destroy(step $step)
     {
         //
     }

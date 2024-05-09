@@ -1,8 +1,21 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import axios from 'axios';
 
 defineProps({
 });
+
+const handlePost = () => {
+  const params = {
+    title: 'job 1',
+    author: 'bhiewr',
+  }
+  // const params = new FormData();
+  // params.append('title', 'first posted problem');
+  // params.append('author', 'Brenemey');
+  // params.append('steps', [{title: 'step 1', hazards: [{title: 'unsafe'}]}, {title: 'step 2', hazards: 'also unsafe'}]);
+  axios.post('/jhas', params);
+}
 
 </script>
 
@@ -15,6 +28,7 @@ defineProps({
       <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
         <main class="mt-6">
           <div class="border-2 border-red-500"> Finally made it</div>
+          <button @click="handlePost">Post to /jhas</button>
         </main>
       </div>
     </div>

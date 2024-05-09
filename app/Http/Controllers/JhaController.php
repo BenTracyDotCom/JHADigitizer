@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorejhasRequest;
 use App\Http\Requests\UpdatejhasRequest;
-use App\Models\jhas;
+use Inertia\Inertia;
+use App\Models\jha;
 
-class JhasController extends Controller
+class JhaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return Inertia::render('Welcome');
     }
 
     /**
@@ -29,13 +30,18 @@ class JhasController extends Controller
      */
     public function store(StorejhasRequest $request)
     {
-        //
+
+      $request->validate([
+        'title' => 'required',
+        'author' => 'required',
+      ]);
+      error_log('Validated!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(jhas $jhas)
+    public function show(jha $jha)
     {
         //
     }
@@ -43,7 +49,7 @@ class JhasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(jhas $jhas)
+    public function edit(jha $jha)
     {
         //
     }
@@ -51,7 +57,7 @@ class JhasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatejhasRequest $request, jhas $jhas)
+    public function update(UpdatejhasRequest $request, jha $jha)
     {
         //
     }
@@ -59,7 +65,7 @@ class JhasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(jhas $jhas)
+    public function destroy(jha $jha)
     {
         //
     }

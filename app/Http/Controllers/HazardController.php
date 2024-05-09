@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorecontrolsRequest;
-use App\Http\Requests\UpdatecontrolsRequest;
-use App\Models\controls;
+use App\Http\Requests\StorehazardsRequest;
+use App\Http\Requests\UpdatehazardsRequest;
+use App\Models\hazard;
 
-class ControlsController extends Controller
+class HazardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ControlsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorecontrolsRequest $request)
+    public function store(StorehazardsRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ControlsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(controls $controls)
+    public function show(hazard $hazard)
     {
         //
     }
@@ -43,7 +43,7 @@ class ControlsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(controls $controls)
+    public function edit(hazard $hazard)
     {
         //
     }
@@ -51,7 +51,7 @@ class ControlsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatecontrolsRequest $request, controls $controls)
+    public function update(UpdatehazardsRequest $request, hazard $hazard)
     {
         //
     }
@@ -59,7 +59,7 @@ class ControlsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(controls $controls)
+    public function destroy(hazard $hazard)
     {
         //
     }
