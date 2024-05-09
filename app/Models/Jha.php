@@ -13,4 +13,10 @@ class Jha extends Model
     {
       return $this->hasMany(Step::class);
     }
+
+    protected $fillable = [
+      'title',
+      'author',
+      'description'
+    ];
 }

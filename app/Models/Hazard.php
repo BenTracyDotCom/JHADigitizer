@@ -18,4 +18,8 @@ class Hazard extends Model
     {
       return $this->hasMany(Control::class);
     }
+
+    protected $fillable = [
+      'title'
+    ];
 }

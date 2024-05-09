@@ -18,4 +18,8 @@ class Step extends Model
     {
       return $this->hasMany(Hazard::class);
     }
+
+    protected $fillable = [
+      'title'
+    ];
 }
