@@ -5,6 +5,7 @@ Online tool to search, create and manage Job Hazard Analysis documents\
 
 ## How to Run:
 ### Install dependencies:
+From the root directory:
 ```shell 
 composer install
 npm install
@@ -41,7 +42,7 @@ Once the process completes, 'localhost:8001' should navigate to PHPMyadmin.
     * Password: password
  
 ### Run migrations and Seed Database (optional)
-In Docker Desktop, under the `jhadigitizer` cluster, click the ellipsis and select "Open in terminal":
+In Docker Desktop, under the `jhadigitizer` cluster, find the 'laravel.test' image, click the ellipsis next to it and select "Open in terminal":
 
 ![docker GUI](https://i.imgur.com/W6FKBOg.png)
 
