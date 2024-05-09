@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorehazardsRequest;
 use App\Http\Requests\UpdatehazardsRequest;
-use App\Models\hazard;
+use App\Models\Hazard;
+use App\Models\Step;
 
 class HazardController extends Controller
 {
@@ -29,7 +30,21 @@ class HazardController extends Controller
      */
     public function store(StorehazardsRequest $request)
     {
-        //
+        $request->validate([
+          'step_id' => 'required',
+          'title' => 'required'
+        ]);
+
+        $step = Step::findOrFail($request->step_id);
+
+        $hazard = new Hazard([
+          'title' -> $request->title
+        ]);
+
+        $step->hazards()->save($hazard);
+
+      return response('Hazard created successfully', 201);
+
     }
 
     /**

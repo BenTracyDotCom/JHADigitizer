@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorestepsRequest;
 use App\Http\Requests\UpdatestepsRequest;
-use App\Models\step;
+use App\Models\Step;
+use App\Models\Jha;
 
 class StepController extends Controller
 {
@@ -29,7 +30,23 @@ class StepController extends Controller
      */
     public function store(StorestepsRequest $request)
     {
-        //
+        $request->validate([
+          'jha_id' => 'required',
+          'title' => 'required'
+        ]);
+        
+        $img = $request->image;
+
+        $jha = Jha::findOrFail($request->jha_id);
+        
+        $step = new Step([
+          'title' => $request->title,
+          'image' => $img ? $img : null
+        ]);
+
+        $jha->steps()->save($step);
+
+      return response('Step created successfully', 201);
     }
 
     /**

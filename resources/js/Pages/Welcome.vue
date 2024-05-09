@@ -8,12 +8,8 @@ defineProps({
 const handlePost = () => {
   const params = {
     title: 'job 1',
-    author: 'bhiewr',
+    author: 'brengeley',
   }
-  // const params = new FormData();
-  // params.append('title', 'first posted problem');
-  // params.append('author', 'Brenemey');
-  // params.append('steps', [{title: 'step 1', hazards: [{title: 'unsafe'}]}, {title: 'step 2', hazards: 'also unsafe'}]);
   axios.post('/jhas', params);
 }
 
