@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorecontrolsRequest;
 use App\Http\Requests\UpdatecontrolsRequest;
+use Illuminate\Http\Request;
 use App\Models\Control;
 use App\Models\Hazard;
 
@@ -12,9 +13,13 @@ class ControlController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request)
   {
-    //
+    $id = $request->hazard_id;
+
+    $controls = Hazard::with('controls')->findOrFail($id);
+
+    return $controls;
   }
 
   /**

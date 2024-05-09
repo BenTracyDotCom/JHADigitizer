@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorejhasRequest;
 use App\Http\Requests\UpdatejhasRequest;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\jha;
 
@@ -14,7 +15,8 @@ class JhaController extends Controller
    */
   public function index()
   {
-    return Inertia::render('Welcome');
+    return Jha::all();
+    //return Inertia::render('Welcome');
   }
 
   /**

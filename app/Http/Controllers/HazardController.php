@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorehazardsRequest;
 use App\Http\Requests\UpdatehazardsRequest;
+use Illuminate\Http\Request;
 use App\Models\Hazard;
 use App\Models\Step;
 
@@ -12,9 +13,13 @@ class HazardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+      $id = $request->step_id;
+
+      $hazards = Step::with('hazards')->findOrFail($id)->hazards;
+
+      return $hazards;
     }
 
     /**

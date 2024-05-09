@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorestepsRequest;
 use App\Http\Requests\UpdatestepsRequest;
+use Illuminate\Http\Request;
 use App\Models\Step;
 use App\Models\Jha;
 
@@ -12,9 +13,14 @@ class StepController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $id = $request->jha_id;
+
+        //This uses Eloquent functionality to return all 'steps' associated with a Jha with a given ID
+        $steps = Jha::with('steps')->findOrFail($id)->steps;
+
+        return $steps;
     }
 
     /**
