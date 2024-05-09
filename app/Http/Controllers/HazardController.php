@@ -73,7 +73,13 @@ class HazardController extends Controller
      */
     public function update(UpdatehazardsRequest $request, hazard $hazard)
     {
-        //
+        $title = $request->title;
+
+        $hazard->title = $title ? $title : $hazard->title;
+
+        $hazard->save();
+
+        return response('Record updated successfully', 200);
     }
 
     /**

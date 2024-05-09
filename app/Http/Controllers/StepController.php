@@ -76,7 +76,15 @@ class StepController extends Controller
      */
     public function update(UpdatestepsRequest $request, step $step)
     {
-        //
+        $title = $request->title;
+        $image = $request->image;
+
+        $step->title = $title ? $title : $step->title;
+        $step->image = $image ? $image : $step->image;
+
+        $step->save();
+
+        return response('Record updated successfully', 200);
     }
 
     /**

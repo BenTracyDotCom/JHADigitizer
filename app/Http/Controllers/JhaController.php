@@ -57,7 +57,7 @@ class JhaController extends Controller
    */
   public function show(jha $jha)
   {
-    //
+    // $jha is the literal record
   }
 
   /**
@@ -73,7 +73,16 @@ class JhaController extends Controller
    */
   public function update(UpdatejhasRequest $request, jha $jha)
   {
-    //
+    $title = $request->title;
+    $author = $request->author;
+    $description = $request->description;
+
+    $jha->title = $title ? $title : $jha->title;
+    $jha->author = $author ? $author : $jha->author;
+    $jha->description = $description ? $description : $jha->description;
+    $jha->save();
+
+    return response('Record updated successfully', 200);
   }
 
   /**
