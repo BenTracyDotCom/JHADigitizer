@@ -14,7 +14,7 @@ Route::get('/user', function (Request $request) {
 Route::resource('jhas', JhaController::class);
 /* Routes to the following Jha controller methods:
 GET '/jhas' -> index
-GET '/jhas' -> create
+GET '/jhas/create' -> create
 POST '/jhas' -> store
 GET '/jhas/{jha}' -> show
 GET '/jhas/{jha}/edit' -> edit
