@@ -1,20 +1,55 @@
-name: Github Actions for PHP with PHPUnit Tests
-
-on: [push]
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - dev
 
 jobs:
-  build:
-
+  tests:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+          MYSQL_DATABASE: ${DB_DATABASE}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
-      - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+    - name: Cache composer dependencies
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          composer-
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: mbstring, intl, zip
 
-      - name: Run test suite
-        run: composer run-script testdox
+    - name: Install composer dependencies
+      run: |
+        composer update
+        composer install --no-scripts
+
+    - name: Prepare Laravel Application
+      run: |
+        cp .env.ci .env
+        php artisan key:generate
+
+    - name: Run Test suite
+      run: composer run-script testdox
