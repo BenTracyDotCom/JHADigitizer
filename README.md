@@ -1,7 +1,7 @@
 # Acme Widgets Digital JHA Tool
 
 Online tool to search, create and manage Job Hazard Analysis documents\
-**This is a demo tool with limited security. This repo and guide will not protect production databases.**
+**This guide uses Laravel Sail to run the demo app a development environment ONLY.**
 
 ## How to Run:
 ### Install dependencies:
@@ -14,16 +14,8 @@ npm install
 ```shell
 cp .env.example .env
 ```
-#### Edit this block in the newly created `.env` file:
-```
-DB_CONNECTION=sqlite
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=laravel
-# DB_USERNAME=root
-# DB_PASSWORD=
-```
-#### To the following:
+#### To bootstrap the app to an existing database, modify this block in `.env` as required:
+
 ```
 DB_CONNECTION=mysql
 DB_HOST=mysql
