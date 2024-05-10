@@ -1,4 +1,5 @@
 # Acme Widgets Digital JHA Tool
+![test status]https://github.com/BenTracyDotCom/JHADigitizer/actions/workflows/ci.yml/badge.svg
 
 Online tool to search, create and manage Job Hazard Analysis documents\
 **This guide uses Laravel Sail to run the demo app a development environment ONLY.**
