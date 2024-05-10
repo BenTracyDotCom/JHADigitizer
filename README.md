@@ -43,4 +43,6 @@ In the terminal window, run `php artisan migrate` and, if desired, `php artisan 
 ### Spin up the frontend manager:
 Start the Vite/Vue frontend with ```npm run dev```
 ## Navigate to 'localhost' to view the app!
+## To run tests in the development environment:
+From root directory: `vendor/bin/sail test`
 
