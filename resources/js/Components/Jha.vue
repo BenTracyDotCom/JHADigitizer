@@ -1,40 +1,11 @@
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
-
-const steps = ref([])
-
-async function fetchSteps(id) {
-  const { data } = await axios.get(`${import.meta.env.VITE_APP_URL}/api/steps`, {
-    params: { jha_id: id}
-  })
-  steps.value = data
-};
-
 export default {
-  name: 'Modal',
+  name: 'Jha',
   methods: {
     close() {
       this.$emit('close');
     },
   },
-  props: {
-    id: Number,
-    title: { type: String, default: 'Title'},
-    author: { type: String, default: 'Author'},
-    updated_at: { type: String, default: new Date().toLocaleDateString()}
-  },
-  data() {
-    return {
-      steps: steps,
-    }
-  },
-  watch: {
-    id: async function(newId){
-      await fetchSteps(this.id)
-      console.log(this.steps, ' steps')
-    }
-  }
 };
 </script>
 
@@ -43,7 +14,7 @@ export default {
     <div class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-4/6 h-5/6">
       <header class="p-[15px] flex relative border-b-2 justify-between">
         <slot name="header">
-          {{ title }}
+          Default Header
         </slot>
         <button type="button" class="absolute top-0 right-0 text-xl font-bold p-2.5 bg-transparent text-teal-300 cursor-pointer" @click="close">
           x

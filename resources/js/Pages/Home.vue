@@ -2,6 +2,7 @@ Dashboard
 
 <script>
 import axios from 'axios';
+import Jha from '../Components/Jha.vue'
 import Modal from '../Components/Modal.vue';
 import Header from '../Components/Header.vue';
 import Footer from '../Components/Footer.vue';
@@ -15,18 +16,19 @@ const fetching = ref(false);
 
 //TODO: handle errors/failures
 async function fetchJhas() {
-  const { data } = await axios.get('/api/jhas');
+  const { data } = await axios.get(`${import.meta.env.VITE_APP_URL}/api/jhas`);
   jhas.value = data;
 }
 
 async function deleteJha(id) {
-  const { data } = await axios.delete(`/api/jhas/${id}`)
+  const { data } = await axios.delete(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`)
   jhas.value = data;
 }
 
 export default {
   name: 'App',
   components: {
+    Jha,
     Modal,
     Header,
     Footer,
@@ -35,18 +37,34 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      isJhaVisible: false,
       jhas: jhas,
+      jha: null
     }
   },
   methods: {
-    showModal() {
+    showModal(jha) {
+      this.jha = jha
       this.isModalVisible = true;
     },
     closeModal() {
       this.isModalVisible = false;
     },
-    handleDelete(id){
+    showJha() {
+      this.isJhaVisible = true;
+    },
+    closeJha() {
+      this.isJhaVisible = false;
+    },
+    handleDelete(id) {
       deleteJha(id);
+    },
+    showJha(jha) {
+      this.jha = jha
+      this.isJhaVisible = true;
+    },
+    hideJha() {
+      this.isJhaVisible = false;
     }
   },
   setup() {
@@ -62,9 +80,16 @@ export default {
   <Header />
 
   <div className="border-2">Made it</div>
-  <Modal v-show="isModalVisible" @close="closeModal"></Modal>
+  <Jha v-show="isJhaVisible" @close="closeJha"></Jha>
+  <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal">
+    <template v-slot:header>
+    </template>
+  <template v-slot:body>
+    <JhaTile v-bind="jha"/>
+  </template>
+  </Modal>
   <div v-for="(jha, index) in jhas">
-    <JhaTile :key="index" v-bind="jha" @deleteJha="handleDelete"/>
+    <JhaTile :key="index" v-bind="jha" @click="() => { showModal(jha) }" @deleteJha="handleDelete"/>
   </div>
   <button type="button" class="border-2 bg-green-100 rounded-lg p-2" @click="showModal">Open modal!</button>
   <Footer />

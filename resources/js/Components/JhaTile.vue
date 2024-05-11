@@ -1,6 +1,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import Modal from '../Components/Modal.vue';
 import Step from './Step.vue';
 
 const steps = ref([])
@@ -18,11 +19,14 @@ const deleteJha = async (id) => {
 
 export default {
   name: 'JhaTile',
+  conponents: {
+    Modal
+  },
   props: {
     id: { required: true, type: Number },
     title: { required: true, type: String },
     author: { required: true, type: String },
-    updated_at: { required: true, type: Date }
+    updated_at: { required: true, type: String }
   },
   data() {
     return {
@@ -30,9 +34,9 @@ export default {
     }
   },
   methods: {
-      handleDelete() {
+    handleDelete() {
       this.$emit('deleteJha', this.id)
-    }
+    },
   },
   setup(props) {
     // onMounted(async () => {
@@ -43,12 +47,14 @@ export default {
 </script>
 
 <template>
-  <div class="bg-white text-center border-2 m-2 w-5/6 mx-auto rounded-md p-2" @click="() => { console.log('clicked') }">
+  <div class="bg-white border-2 text-center m-2 w-5/6 mx-auto rounded-md p-2">
     <div class="flex flex-row justify-between">
       <div class="text-2xl font-bold">{{ title }}</div>
       <div class="font-bold">{{ author }}</div>
     </div>
-    <div @click="handleDelete">X</div>
-    <div class="text-end">{{ new Date(updated_at).toLocaleDateString() }}</div>
+    <div class="flex flex-row justify-between">
+      <div class="">{{ new Date(updated_at).toLocaleDateString() }}</div>
+      <div @click="handleDelete" class="w-min px-2 rounded-md bg-red-300">X</div>
+    </div>
   </div>
 </template>
