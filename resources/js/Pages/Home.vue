@@ -77,20 +77,23 @@ export default {
 </script>
 
 <template>
-  <Header />
-
-  <div className="border-2">Made it</div>
-  <Jha v-show="isJhaVisible" @close="closeJha"></Jha>
-  <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal">
-    <template v-slot:header>
-    </template>
-  <!-- <template v-slot:body>
-    <JhaTile v-bind="jha"/>
-  </template> -->
-  </Modal>
-  <div v-for="(jha, index) in jhas">
-    <JhaTile :key="index" v-bind="jha" @click="() => { showModal(jha) }" @deleteJha="handleDelete"/>
+  <div class="w-full">
+    <Header />
+    <div className="border-2">Made it</div>
+    <Jha v-show="isJhaVisible" @close="closeJha"></Jha>
+    <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal">
+      <template v-slot:header>
+      </template>
+    <!-- <template v-slot:body>
+      <JhaTile v-bind="jha"/>
+    </template> -->
+    </Modal>
+    <div v-for="(jha, index) in jhas">
+      <JhaTile :key="index" v-bind="jha" @click="() => { showModal(jha) }" @deleteJha="handleDelete"/>
+    </div>
+    <div class="w-full flex flex-around">
+      <button type="button" class="border-2 bg-green-100 rounded-lg p-2  mx-auto" @click="showJha">Add a JHA</button>
+      </div>
+    <Footer />
   </div>
-  <button type="button" class="border-2 bg-green-100 rounded-lg p-2" @click="showModal">Open modal!</button>
-  <Footer />
 </template>

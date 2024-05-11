@@ -13,13 +13,18 @@ import Hazard from '../Components/Hazard.vue';
       title: { required: true, type: String },
       hazards: { type: Array, default: [] },
       editable: {type: Boolean, default: false }
+    },
+    data() {
+      return {
+        controls: this.hazards.controls
+      }
     }
   }
 </script>
 <template>
   <div>
     <div class="grid grid-cols-3 ">
-      <div class="border-x-2" @click="() => {console.log('clicked')}">
+      <div class="border-r-2" @click="() => {console.log('clicked')}">
         <div>Step {{ num + 1 }}</div>
         <div>{{ title }}</div>
       </div>
