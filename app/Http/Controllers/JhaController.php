@@ -17,7 +17,6 @@ class JhaController extends Controller
   {
     $jhas = Jha::with('steps.hazards.controls')->get();
     return $jhas;
-    //return Inertia::render('Welcome');
   }
 
   /**

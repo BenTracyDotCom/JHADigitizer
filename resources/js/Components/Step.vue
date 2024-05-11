@@ -1,16 +1,7 @@
 
 <script>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import Hazard from '../Components/Hazard.vue';
 
-const hazards = ref([])
-
-const fetchHazards = async (id) => {
-      const { data } = await axios.get('/hazards', { step_id: id })
-      hazards.value = data
-  }
-  
   export default {
     name: 'Step',
     components: {
@@ -20,21 +11,23 @@ const fetchHazards = async (id) => {
       num: Number,
       id: { required: true, type: Number },
       title: { required: true, type: String },
+      hazards: { type: Array, default: [] },
       editable: {type: Boolean, default: false }
     }
   }
 </script>
 <template>
-  <div class="grid grid-cols-3">
-    <div class="border-2" @click="() => {console.log('clicked')}">
-      <div>Step</div>
-      <div>{{ title }}</div>
-    </div>
-    <div v-for="(hazard, index) in hazards">
-      <Hazard v-bind="hazard" />
-    </div>
-    <div class="border-2">
-      Column 3
+  <div>
+    <div class="grid grid-cols-3 ">
+      <div class="border-x-2" @click="() => {console.log('clicked')}">
+        <div>Step {{ num + 1 }}</div>
+        <div>{{ title }}</div>
+      </div>
+      <div class="col-span-2">
+        <div v-for="(hazard, index) in hazards" class="h-fit">
+          <Hazard v-bind="hazard" :key="index"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>

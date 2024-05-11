@@ -3,15 +3,6 @@ import { ref } from "vue";
 import axios from "axios";
 import Step from "../Components/Step.vue";
 
-const steps = ref([]);
-
-async function fetchSteps(id) {
-  const { data } = await axios.get(`${import.meta.env.VITE_APP_URL}/api/steps`, {
-    params: { jha_id: id },
-  });
-  steps.value = data;
-}
-
 export default {
   name: "Modal",
   components: {
@@ -29,19 +20,13 @@ export default {
     description: { type: String, default: null },
     created_at: { type: String, default: null },
     updated_at: { type: String, default: null },
+    steps: { type: Array, default: [] }
   },
   data() {
     return {
-      steps: steps,
       //Todo: enable editing
       editable: false,
     };
-  },
-  watch: {
-    id: async function (newId) {
-      await fetchSteps(this.id);
-      console.log(this.steps, " steps");
-    },
   },
 };
 </script>
@@ -66,8 +51,13 @@ export default {
       </header>
       <section class="relative px-5 py-2.5">
         <slot name="body">
+          <div class="grid grid-cols-3 border-b-2">
+            <div>Steps</div>
+            <div>Hazards</div>
+            <div>Controls</div>
+          </div>
           <div v-for="(step, index) in steps">
-            <div class="grid row">
+            <div class="border-b-2 border-x-2">
               <Step :key="index" :num="index" v-bind="step" :editable="editable" />
             </div>
           </div>

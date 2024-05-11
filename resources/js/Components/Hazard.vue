@@ -1,36 +1,28 @@
 
 <script>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import Control from '../Components/Control.vue';
 
-const hazards = ref([])
-
-const fetchHazards = async (id) => {
-      const { data } = await axios.get('/hazards', { step_id: id })
-      hazards.value = data
-  }
-  
   export default {
     name: 'Step',
+    components: {
+      Control
+    },
     props: {
-      num: Number,
+      step_id: { required: true, type: Number },
       id: { required: true, type: Number },
       title: { required: true, type: String },
+      controls: { type: Array },
       editable: {type: Boolean, default: false }
     }
   }
 </script>
 <template>
-  <div class="grid grid-cols-3">
-    <div class="border-2" @click="() => {console.log('clicked')}">
-      <div>Step</div>
+  <div class="grid grid-cols-2 h-full">
+    <div @click="() => {console.log('clicked')}">
       <div>{{ title }}</div>
     </div>
-    <div class="border-2">
-      Column 2
-    </div>
-    <div class="border-2">
-      Column 3
+    <div v-for="(control, index) in controls">
+      <Control :key="index" v-bind="control" />
     </div>
   </div>
 </template>
