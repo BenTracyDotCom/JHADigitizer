@@ -93,6 +93,6 @@ class JhaController extends Controller
     if($jha){
       $jha->delete();
     }
-    return response('Record successfully removed', 200);
+    return Jha::all();
   }
 }

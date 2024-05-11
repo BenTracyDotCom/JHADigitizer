@@ -12,8 +12,15 @@ const jhas = ref([]);
 //Implement loading icon if time allows
 const fetching = ref(false);
 
+
+//TODO: handle errors/failures
 async function fetchJhas() {
   const { data } = await axios.get('/api/jhas');
+  jhas.value = data;
+}
+
+async function deleteJha(id) {
+  const { data } = await axios.delete(`/api/jhas/${id}`)
   jhas.value = data;
 }
 
@@ -37,6 +44,9 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    handleDelete(id){
+      deleteJha(id);
     }
   },
   setup() {
@@ -54,7 +64,7 @@ export default {
   <div className="border-2">Made it</div>
   <Modal v-show="isModalVisible" @close="closeModal"></Modal>
   <div v-for="(jha, index) in jhas">
-    <JhaTile :key="index" v-bind="jha"/>
+    <JhaTile :key="index" v-bind="jha" @deleteJha="handleDelete"/>
   </div>
   <button type="button" class="border-2 bg-green-100 rounded-lg p-2" @click="showModal">Open modal!</button>
   <Footer />

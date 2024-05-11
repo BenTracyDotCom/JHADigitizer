@@ -1,16 +1,3 @@
-<template>
-  <div class="bg-white text-center border-2 m-2 w-5/6 mx-auto rounded-md p-2" @click="() => { console.log('clicked') }">
-    <div class="flex flex-row justify-between">
-      <div class="text-2xl font-bold">{{ title }}</div>
-      <div class="font-bold">{{ author }}</div>
-    </div>
-    <div class="text-end">{{ new Date(updated_at).toLocaleDateString() }}</div>
-    <div v-for="(step, index) in steps">
-      <Step />
-    </div>
-  </div>
-</template>
-
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -21,6 +8,11 @@ const steps = ref([])
 const fetchSteps = async (id) => {
   console.log(id, ' id')
   const { data } = await axios.get('/api/steps', { jha_id: id })
+  steps.value = data
+}
+
+const deleteJha = async (id) => {
+  const { data } = await axios.delete(`api/jhas/${id}`)
   steps.value = data
 }
 
@@ -37,6 +29,11 @@ export default {
       steps: steps
     }
   },
+  methods: {
+      handleDelete() {
+      this.$emit('deleteJha', this.id)
+    }
+  },
   setup(props) {
     // onMounted(async () => {
     //   await fetchSteps(props.id)
@@ -44,3 +41,14 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div class="bg-white text-center border-2 m-2 w-5/6 mx-auto rounded-md p-2" @click="() => { console.log('clicked') }">
+    <div class="flex flex-row justify-between">
+      <div class="text-2xl font-bold">{{ title }}</div>
+      <div class="font-bold">{{ author }}</div>
+    </div>
+    <div @click="handleDelete">X</div>
+    <div class="text-end">{{ new Date(updated_at).toLocaleDateString() }}</div>
+  </div>
+</template>
