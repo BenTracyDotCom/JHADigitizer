@@ -84,9 +84,9 @@ export default {
   <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal">
     <template v-slot:header>
     </template>
-  <template v-slot:body>
+  <!-- <template v-slot:body>
     <JhaTile v-bind="jha"/>
-  </template>
+  </template> -->
   </Modal>
   <div v-for="(jha, index) in jhas">
     <JhaTile :key="index" v-bind="jha" @click="() => { showModal(jha) }" @deleteJha="handleDelete"/>

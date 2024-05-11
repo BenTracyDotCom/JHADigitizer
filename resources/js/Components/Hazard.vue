@@ -2,7 +2,6 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Hazard from '../Components/Hazard.vue';
 
 const hazards = ref([])
 
@@ -13,9 +12,6 @@ const fetchHazards = async (id) => {
   
   export default {
     name: 'Step',
-    components: {
-      Hazard
-    },
     props: {
       num: Number,
       id: { required: true, type: Number },
@@ -30,8 +26,8 @@ const fetchHazards = async (id) => {
       <div>Step</div>
       <div>{{ title }}</div>
     </div>
-    <div v-for="(hazard, index) in hazards">
-      <Hazard v-bind="hazard" />
+    <div class="border-2">
+      Column 2
     </div>
     <div class="border-2">
       Column 3
