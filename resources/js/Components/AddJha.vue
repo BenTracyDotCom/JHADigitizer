@@ -44,9 +44,8 @@ export default {
       this.$refs.form$.clear()
     },
     handleAddStep() {
-       if(!this.steps.length || Object.keys(this.steps).every(step => step != "0")){
+       if(!this.steps.length || Object.keys(this.steps).every(step => !!step)){
         this.steps[this.steps.length] = this.steps.length + 1
-        console.log('added')
       }
     }
   },
