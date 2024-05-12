@@ -1,11 +1,13 @@
 <script>
 import axios from "axios";
 import { ref, watch } from "vue";
-import AddSteps from "../Components/AddSteps.vue";
+import AddableStep from "../Components/AddableStep.vue";
 import { getCurrentInstance } from "vue";
 
 const jha = ref(null);
 const steps = ref([]);
+
+//From this component, I want to be able to add steps to my "steps" array to map. I want to keep an "add step" button, but only actually add a step then each of the others is populated with at least a 'title'.
 
 async function addJha({ title, author, description }) {
   const toSend = {
@@ -23,7 +25,7 @@ async function addJha({ title, author, description }) {
 export default {
   name: "AddJha",
   components: {
-    AddSteps
+    AddableStep
   },
   methods: {
     close() {
@@ -40,11 +42,21 @@ export default {
       }
       addJha(toSubmit)
       this.$refs.form$.clear()
+    },
+    handleAddStep() {
+       if(!this.steps.length || Object.keys(this.steps).every((item => !!item))){
+        this.steps[this.steps.length] = this.steps.length + 1
+        console.log('added')
+      } else {
+        console.log('false!')
+      }
     }
   },
   data() {
     return {
       jha: jha,
+      // This is redundant if we're using the ref above
+      steps: []
     };
   },
   setup(props, context) {
@@ -102,8 +114,16 @@ export default {
       <!-- <button type="button" @click="sendJha">
         Create JHA form
       </button> -->
-      <div v-if="jha" class="h-full"><AddSteps v-bind="jha" /></div>
-      <div class="p2 bg-red-500 self-end" @click="close">Close</div>
+      <div v-if="jha" class="h-full">
+        <div class="w-full flex flex-row justify-around">
+          <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">Add step</button>
+        </div>
+        <div v-if="steps" v-for="(step, index) in steps" :key="index">
+          <AddableStep v-bind="jha" :index="index"/>
+        </div>
+        <div class="p2 bg-red-500 self-end" @click="close">Close</div>
+      </div>
     </div>
   </div>
 </template>
+
