@@ -48,8 +48,7 @@ class JhaController extends Controller
 
     $jha->save();
 
-    return response('JHA created successfully', 201);
-
+    return $jha;
   }
 
   /**

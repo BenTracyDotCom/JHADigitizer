@@ -1,49 +1,49 @@
 <script>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import Modal from '../Components/Modal.vue';
-import Step from './Step.vue';
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import Modal from "../Components/Modal.vue";
+import Step from "./Step.vue";
 
-const steps = ref([])
+const steps = ref([]);
 
 const fetchSteps = async (id) => {
-  console.log(id, ' id')
-  const { data } = await axios.get('/api/steps', { jha_id: id })
-  steps.value = data
-}
+  console.log(id, " id");
+  const { data } = await axios.get("/api/steps", { jha_id: id });
+  steps.value = data;
+};
 
 const deleteJha = async (id) => {
-  const { data } = await axios.delete(`api/jhas/${id}`)
-  steps.value = data
-}
+  const { data } = await axios.delete(`api/jhas/${id}`);
+  steps.value = data;
+};
 
 export default {
-  name: 'JhaTile',
+  name: "JhaTile",
   conponents: {
-    Modal
+    Modal,
   },
   props: {
     id: { required: true, type: Number },
     title: { required: true, type: String },
     author: { required: true, type: String },
-    updated_at: { required: true, type: String }
+    updated_at: { required: true, type: String },
   },
   data() {
     return {
-      steps: steps
-    }
+      steps: steps,
+    };
   },
   methods: {
     handleDelete() {
-      this.$emit('deleteJha', this.id)
+      this.$emit("deleteJha", this.id);
     },
   },
   setup(props) {
     // onMounted(async () => {
     //   await fetchSteps(props.id)
     // })
-  }
-}
+  },
+};
 </script>
 
 <template>
