@@ -1,7 +1,8 @@
 <script>
 import axios from "axios";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import AddSteps from "../Components/AddSteps.vue";
+import { getCurrentInstance } from "vue";
 
 const jha = ref(null);
 const steps = ref([]);
@@ -14,7 +15,6 @@ async function addJha({ title, author, description }) {
   if (description) {
     toSend.description = description;
   }
-  console.log(toSend);
 
   const { data } = await axios.post(`${import.meta.env.VITE_APP_URL}/api/jhas`, toSend);
   jha.value = data;
@@ -39,6 +39,7 @@ export default {
         toSubmit.description = form.description;
       }
       addJha(toSubmit)
+      this.$refs.form$.clear()
     }
   },
   data() {
@@ -46,6 +47,11 @@ export default {
       jha: jha,
     };
   },
+  setup(props, context) {
+    watch(jha, () => {
+      context.emit('addJha')
+    })
+  }
 };
 </script>
 
@@ -89,13 +95,15 @@ export default {
           Create JHA Form
         </ButtonElement>
       </Vueform>
-      <div v-else>
-        <div>{{ this.jha.title }}</div>
+      <div v-else class="border-b-2 border-black pl-2 text-center">
+        <div class="text-2xl font-bold pt-2">{{ this.jha.title }}</div>
+        <div class="">Submitted by {{ this.jha.author }} on {{ new Date(this.jha.created_at).toLocaleDateString() }}</div>
       </div>
       <!-- <button type="button" @click="sendJha">
         Create JHA form
       </button> -->
-      <div v-if="jha" @click="close" id=jha ><AddSteps /></div>
+      <div v-if="jha" class="h-full"><AddSteps v-bind="jha" /></div>
+      <div class="p2 bg-red-500 self-end" @click="close">Close</div>
     </div>
   </div>
 </template>

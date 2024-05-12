@@ -58,6 +58,9 @@ export default {
     handleDelete(id) {
       deleteJha(id);
     },
+    handleAdd() {
+      fetchJhas();
+    },
     showJha(jha) {
       this.jha = jha;
       this.isJhaVisible = true;
@@ -79,7 +82,13 @@ export default {
     <Header />
     <div className="border-2">Made it</div>
     <AddJha v-show="isJhaVisible" @close="closeJha"></AddJha>
-    <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal"        @deleteJha="handleDelete">
+    <Modal 
+    v-show="isModalVisible"
+    v-bind="jha"
+    @close="closeModal"
+    @deleteJha="handleDelete"
+    @addJha="handleAdd"
+    >
       <template v-slot:header> </template>
              @deleteJha="handleDelete"
       <!-- <template v-slot:body>
@@ -95,7 +104,6 @@ export default {
             showModal(jha);
           }
         "
-        @deleteJha="handleDelete"
       />
     </div>
     <div class="w-full flex flex-around">
