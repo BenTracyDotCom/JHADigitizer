@@ -43,12 +43,12 @@ class ControlController extends Controller
     $hazard = Hazard::findOrFail($request->hazard_id);
 
     $control = new Control([
-      'title'->$request->title
+      'title' => $request->title
     ]);
 
     $hazard->controls()->save($control);
 
-    return response('Hazard created successfully', 201);
+    return $control;
   }
   /**
    * Display the specified resource.

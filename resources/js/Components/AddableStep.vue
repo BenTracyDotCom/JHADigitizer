@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
 import { ref } from "vue";
-import AddableHazard from "../Components/AddableHazard.vue"
+import AddableHazard from "../Components/AddableHazard.vue";
 
 const step = ref(null);
 
@@ -22,7 +22,7 @@ export default {
     index: Number,
   },
   components: {
-    AddableHazard
+    AddableHazard,
   },
   data() {
     return {
@@ -32,14 +32,14 @@ export default {
   },
   methods: {
     addStep() {
-      const form = this.$refs.form$.data
-      form.jha_id = this.id
-      postStep(form)
+      const form = this.$refs.form$.data;
+      form.jha_id = this.id;
+      postStep(form);
     },
     handleAddHazard() {
-        console.log('clicked')
-        console.log(this.hazards)
-        this.hazards[this.hazards.length] = this.hazards.length + 1;
+      console.log("clicked");
+      console.log(this.hazards);
+      this.hazards[this.hazards.length] = this.hazards.length + 1;
     },
     // addStep() {
     //   if(this.$refs.form$.every($form => ($form.data.title))){
@@ -54,22 +54,15 @@ export default {
   <div class="">
     <div>Step {{ index + 1 }}</div>
     <div v-if="step">{{ step.title }}</div>
-      <Vueform ref="form$" @submit="addStep" v-if="!step">
-        <GroupElement
-        name="step"
-        >
-          <TextareaElement
-          name="title"
-          placeholder="Description"
-          rules="required"/>
-        </GroupElement>
-        <ButtonElement v-if="!step" name="submit" submits>
-          Save
-        </ButtonElement>
-      </Vueform>
+    <Vueform ref="form$" @submit="addStep" v-if="!step">
+      <GroupElement name="step">
+        <TextareaElement name="title" placeholder="Description" rules="required" />
+      </GroupElement>
+      <ButtonElement v-if="!step" name="submit" submits> Save </ButtonElement>
+    </Vueform>
     <div class="bg-yellow-500" @click="handleAddHazard" v-if="step">Add hazards</div>
-    <div v-if="hazards" v-for="(step, index) in hazards" :key="index">
-      <AddableHazard v-bind="step" :index="index" />
+    <div v-if="hazards" v-for="(hazard, index) in hazards" :key="index">
+      <AddableHazard v-bind="hazard" :index="index" :id="step.id"/>
     </div>
   </div>
 </template>

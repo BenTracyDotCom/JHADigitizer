@@ -42,13 +42,13 @@ class HazardController extends Controller
 
         $step = Step::findOrFail($request->step_id);
 
-        $hazard = new Hazard([
-          'title' -> $request->title
+                $hazard = new Hazard([
+          'title' => $request->title
         ]);
 
         $step->hazards()->save($hazard);
 
-      return response('Hazard created successfully', 201);
+      return $hazard;
 
     }
 
