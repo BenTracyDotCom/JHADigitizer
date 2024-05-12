@@ -44,11 +44,9 @@ export default {
       this.$refs.form$.clear()
     },
     handleAddStep() {
-       if(!this.steps.length || Object.keys(this.steps).every((item => !!item))){
+       if(!this.steps.length || Object.keys(this.steps).every(step => step != "0")){
         this.steps[this.steps.length] = this.steps.length + 1
         console.log('added')
-      } else {
-        console.log('false!')
       }
     }
   },
@@ -119,7 +117,7 @@ export default {
           <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">Add step</button>
         </div>
         <div v-if="steps" v-for="(step, index) in steps" :key="index">
-          <AddableStep v-bind="jha" :index="index"/>
+          <AddableStep v-bind="jha" :index="index" @addstep="handleAddStep"/>
         </div>
         <div class="p2 bg-red-500 self-end" @click="close">Close</div>
       </div>

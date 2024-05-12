@@ -2,8 +2,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const step = ref(null)
-const hazards = ref([]);
+const step = ref(null);
 
 async function addStep({ jha_id, title }) {
   const toSend = {
@@ -11,25 +10,26 @@ async function addStep({ jha_id, title }) {
     title: title,
   };
 
-  const { data } = await axios.post(`${import.meta.env.VITE_APP_URL}/api/`, toSend);
-  return data
+  const { data } = await axios.post(`${import.meta.env.VITE_APP_URL}/api/steps`, toSend);
+  return data;
 }
 
 export default {
   name: "AddableStep",
   props: {
     id: Number,
-    index: Number
+    index: Number,
   },
   data() {
     return {
-      steps: [" eat a dick ", "don't"],
+      step: step,
+      hazards: [],
     };
   },
   methods: {
     addStep() {
 
-    }
+    },
     // addStep() {
     //   if(this.$refs.form$.every($form => ($form.data.title))){
     //     this.steps[this.steps.length] = ''
@@ -42,7 +42,6 @@ export default {
 <template>
   <div class="">
     <div>Step {{ index + 1 }}</div>
-    <!-- <div v-if="steps" v-for="(step, index) in steps">
       <Vueform ref="form$">
         <GroupElement
         name="step"
@@ -53,7 +52,6 @@ export default {
           rules="required"/>
         </GroupElement>
       </Vueform>
-    </div> -->
     <div class="bg-yellow-500" @click="addStep">Add hazards</div>
   </div>
 </template>

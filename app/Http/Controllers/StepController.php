@@ -52,7 +52,7 @@ class StepController extends Controller
 
         $jha->steps()->save($step);
 
-      return response('Step created successfully', 201);
+      return $step;
     }
 
     /**
