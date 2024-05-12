@@ -12,6 +12,11 @@ export default {
     close() {
       this.$emit("close");
     },
+    handleDelete() {
+      this.$emit("deleteJha", this.id);
+      this.$emit("close");
+    }
+    
   },
   props: {
     id: Number,
@@ -68,6 +73,7 @@ export default {
         <button type="button" class="bg-green-300 border-2 rounded-md" @click="close">
           Close Modal
         </button>
+        <button type="button" class="bg-red-500 p-2" @click="handleDelete">Delete</button>
       </footer>
     </div>
   </div>

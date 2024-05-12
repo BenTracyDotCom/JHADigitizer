@@ -54,7 +54,6 @@ export default {
     </div>
     <div class="flex flex-row justify-between">
       <div class="">{{ new Date(updated_at).toLocaleDateString() }}</div>
-      <div @click="handleDelete" class="w-min px-2 rounded-md bg-red-300">X</div>
     </div>
   </div>
 </template>

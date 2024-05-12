@@ -79,8 +79,9 @@ export default {
     <Header />
     <div className="border-2">Made it</div>
     <AddJha v-show="isJhaVisible" @close="closeJha"></AddJha>
-    <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal">
+    <Modal v-show="isModalVisible" v-bind="jha" @close="closeModal"        @deleteJha="handleDelete">
       <template v-slot:header> </template>
+             @deleteJha="handleDelete"
       <!-- <template v-slot:body>
       <JhaTile v-bind="jha"/>
     </template> -->
