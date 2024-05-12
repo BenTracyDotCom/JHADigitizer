@@ -5,7 +5,6 @@ import AddableStep from "../Components/AddableStep.vue";
 import { getCurrentInstance } from "vue";
 
 const jha = ref(null);
-const steps = ref([]);
 
 //From this component, I want to be able to add steps to my "steps" array to map. I want to keep an "add step" button, but only actually add a step then each of the others is populated with at least a 'title'.
 
@@ -25,42 +24,47 @@ async function addJha({ title, author, description }) {
 export default {
   name: "AddJha",
   components: {
-    AddableStep
+    AddableStep,
   },
   methods: {
     close() {
       this.$emit("close");
     },
     sendJha() {
-      const form = this.$refs.form$.data
+      const form = this.$refs.form$.data;
       const toSubmit = {
         title: form.title,
-        author: `${form.firstname} ${form.lastname}`
-      }
-      if(form.description){
+        author: `${form.firstname} ${form.lastname}`,
+      };
+      if (form.description) {
         toSubmit.description = form.description;
       }
-      addJha(toSubmit)
-      this.$refs.form$.clear()
+      addJha(toSubmit);
+      this.$refs.form$.clear();
     },
     handleAddStep() {
-       if(!this.steps.length || Object.keys(this.steps).every(step => !!step)){
-        this.steps[this.steps.length] = this.steps.length + 1
+      if (!this.steps.length || Object.keys(this.steps).every((step) => !!step)) {
+        this.steps[this.steps.length] = this.steps.length + 1;
       }
+    },
+    handleFinish() {
+      this.$emit("finishAdding")
+      this.$emit("close")
+      this.jha = null
     }
   },
   data() {
     return {
       jha: jha,
       // This is redundant if we're using the ref above
-      steps: []
+      steps: [],
     };
   },
   setup(props, context) {
     watch(jha, () => {
-      context.emit('addJha')
-    })
-  }
+      context.emit("addJha");
+    });
+  },
 };
 </script>
 
@@ -75,10 +79,11 @@ export default {
         <div class="font-bold text-2xl pt-2 pl-2 -mb-2">Job</div>
         <TextElement name="title" rules="required" class="px-2" />
         <GroupElement
-        name="author"
-        label="Author"
-        :format-data="(n, v) =>(`${n} ${v}`)"
-        class="px-2">
+          name="author"
+          label="Author"
+          :format-data="(n, v) => `${n} ${v}`"
+          class="px-2"
+        >
           <TextElement
             name="firstname"
             placeholder="First name"
@@ -106,21 +111,28 @@ export default {
       </Vueform>
       <div v-else class="border-b-2 border-black pl-2 text-center">
         <div class="text-2xl font-bold pt-2">{{ this.jha.title }}</div>
-        <div class="">Submitted by {{ this.jha.author }} on {{ new Date(this.jha.created_at).toLocaleDateString() }}</div>
+        <div class="">
+          Submitted by {{ this.jha.author }} on
+          {{ new Date(this.jha.created_at).toLocaleDateString() }}
+        </div>
       </div>
       <!-- <button type="button" @click="sendJha">
         Create JHA form
       </button> -->
       <div v-if="jha" class="h-full">
         <div class="w-full flex flex-row justify-around">
-          <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">Add step</button>
+          <div v-if="steps" v-for="(step, index) in steps" :key="index">
+            <AddableStep v-bind="jha" :index="index" />
+          </div>
         </div>
-        <div v-if="steps" v-for="(step, index) in steps" :key="index">
-          <AddableStep v-bind="jha" :index="index" @addstep="handleAddStep"/>
-        </div>
+        <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">
+          Add step
+        </button>
+        <button type="button" class="bg-green-500 rounded-md p-2" @click="handleFinish">
+          Save & Exit
+        </button>
         <div class="p2 bg-red-500 self-end" @click="close">Close</div>
       </div>
     </div>
   </div>
 </template>
-

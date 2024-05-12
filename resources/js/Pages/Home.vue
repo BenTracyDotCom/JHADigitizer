@@ -59,15 +59,15 @@ export default {
       deleteJha(id);
     },
     handleAdd() {
-      fetchJhas();
+      fetchJhas()
     },
-    showJha(jha) {
-      this.jha = jha;
-      this.isJhaVisible = true;
-    },
-    hideJha() {
-      this.isJhaVisible = false;
-    },
+    // showJha(jha) {
+    //   this.jha = jha;
+    //   this.isJhaVisible = true;
+    // },
+    // hideJha() {
+    //   this.isJhaVisible = false;
+    // },
   },
   setup() {
     onMounted(async () => {
@@ -81,39 +81,41 @@ export default {
   <div class="w-full">
     <Header />
     <div className="border-2">Made it</div>
-    <AddJha v-show="isJhaVisible" @close="closeJha"></AddJha>
-    <Modal 
-    v-show="isModalVisible"
-    v-bind="jha"
-    @close="closeModal"
-    @deleteJha="handleDelete"
-    @addJha="handleAdd"
+    <AddJha v-show="isJhaVisible" @close="closeJha"           @finishAdding="handleAdd"></AddJha>
+    <Modal
+      v-show="isModalVisible"
+      v-bind="jha"
+      @close="closeModal"
+      @deleteJha="handleDelete"
+      @addJha="handleAdd"
     >
       <template v-slot:header> </template>
-             @deleteJha="handleDelete"
+      @deleteJha="handleDelete"
       <!-- <template v-slot:body>
       <JhaTile v-bind="jha"/>
     </template> -->
     </Modal>
-    <div v-for="(jha, index) in jhas">
-      <JhaTile
-        :key="index"
-        v-bind="jha"
-        @click="
-          () => {
-            showModal(jha);
-          }
-        "
-      />
-    </div>
-    <div class="w-full flex flex-around">
-      <button
-        type="button"
-        class="border-2 bg-green-100 rounded-lg p-2 mx-auto"
-        @click="showJha"
-      >
-        Add a JHA
-      </button>
+    <div :key="jhas">
+      <div v-for="(jha, index) in jhas">
+        <JhaTile
+          :key="index"
+          v-bind="jha"
+          @click="
+            () => {
+              showModal(jha);
+            }
+          "
+        />
+      </div>
+      <div class="w-full flex flex-around">
+        <button
+          type="button"
+          class="border-2 bg-green-100 rounded-lg p-2 mx-auto"
+          @click="showJha"
+        >
+          Add a JHA
+        </button>
+      </div>
     </div>
     <Footer />
   </div>

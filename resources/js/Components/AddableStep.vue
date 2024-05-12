@@ -28,6 +28,8 @@ export default {
     return {
       step: step,
       hazards: [],
+      hasSaved: false,
+      title: ''
     };
   },
   methods: {
@@ -35,10 +37,10 @@ export default {
       const form = this.$refs.form$.data;
       form.jha_id = this.id;
       postStep(form);
+      this.hasSaved=true
+      this.title = form.title
     },
     handleAddHazard() {
-      console.log("clicked");
-      console.log(this.hazards);
       this.hazards[this.hazards.length] = this.hazards.length + 1;
     },
     // addStep() {
@@ -53,16 +55,16 @@ export default {
 <template>
   <div class="">
     <div>Step {{ index + 1 }}</div>
-    <div v-if="step">{{ step.title }}</div>
-    <Vueform ref="form$" @submit="addStep" v-if="!step">
+    <div v-if="this.step">{{ this.title }}</div>
+    <Vueform ref="form$" :endpoint="false" @submit="addStep" v-if="!this.hasSaved">
       <GroupElement name="step">
         <TextareaElement name="title" placeholder="Description" rules="required" />
       </GroupElement>
-      <ButtonElement v-if="!step" name="submit" submits> Save </ButtonElement>
+      <ButtonElement v-if="!this.hasSaved" name="submit" submits> Save </ButtonElement>
     </Vueform>
     <div class="bg-yellow-500" @click="handleAddHazard" v-if="step">Add hazards</div>
     <div v-if="hazards" v-for="(hazard, index) in hazards" :key="index">
-      <AddableHazard v-bind="hazard" :index="index" :id="step.id"/>
+      <AddableHazard v-bind="step" :index="index"/>
     </div>
   </div>
 </template>
