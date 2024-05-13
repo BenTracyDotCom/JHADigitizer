@@ -13,11 +13,20 @@ export default {
       this.$emit("close");
     },
     handleDelete() {
+      this.disableEdit();
       this.$emit("deleteJha", this.id);
       this.$emit("close");
     },
     enableEdit() {
-      this.editable="true"
+      this.editable = true
+    },
+    disableEdit() {
+      this.editable = false
+      this.$emit("finishEditing", this.formData);
+      this.$emit("close");
+    },
+    finishedEditing() {
+      this.$emit("finishEditing", this.formData)
     }
   },
   props: {
@@ -31,8 +40,12 @@ export default {
   },
   data() {
     return {
-      //Todo: enable editing
       editable: false,
+      formData: {
+        id: this.id,
+        title: this.title,
+        author: this.author
+      }
     };
   },
 };
@@ -43,8 +56,16 @@ export default {
     <div class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-5/6 h-5/6">
       <header class="p-[15px] flex relative border-b-2 justify-between">
         <slot name="header">
-          <div class="text-3xl font-bold">
-            {{ title }}
+          <div class="flex flex-row">
+            <div class="text-3xl font-bold"  v-if="!editable">
+              {{ title }}
+            </div>
+            <div v-else>
+              <input v-model="this.formData.title" />
+            </div>
+            <div v-if="editable">
+              <img src="/images/edit.png" class="size-4 cursor-pointer"/>
+            </div>
           </div>
           <div class="text-md">Created by {{ author }}</div>
         </slot>
@@ -72,8 +93,11 @@ export default {
       </section>
       <footer class="p-[15px] flex border-t-2 flex-col justify-end">
         <slot name="footer"> Default Footer </slot>
-        <button type="button" class="bg-slate-200 border-2 rounded-md" @click="close">
+        <button type="button" class="bg-slate-200 border-2 rounded-md" @click="enableEdit" v-if="!editable">
           Edit Job Hazard Analysis
+        </button>
+        <button type="button" class="bg-slate-200 border-2 rounded-md" @click="disableEdit" v-if="editable">
+          Finish editing
         </button>
         <button type="button" class="bg-red-500 p-2" @click="handleDelete">Delete</button>
       </footer>

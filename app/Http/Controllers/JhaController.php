@@ -83,7 +83,10 @@ class JhaController extends Controller
     $jha->description = $description ? $description : $jha->description;
     $jha->save();
 
-    return response('Record updated successfully', 200);
+    $jhas = Jha::with('steps.hazards.controls')
+    ->orderBy('updated_at', 'desc')
+    ->get();
+    return $jhas;
   }
 
   /**
@@ -94,6 +97,9 @@ class JhaController extends Controller
     if($jha){
       $jha->delete();
     }
-    return Jha::all();
+    $jhas = Jha::with('steps.hazards.controls')
+    ->orderBy('updated_at', 'desc')
+    ->get();
+    return $jhas;
   }
 }

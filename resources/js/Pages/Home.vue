@@ -24,6 +24,17 @@ async function deleteJha(id) {
   jhas.value = data;
 }
 
+async function modifyJha({ id, title, author, description}) {
+  const toUpdate = {
+    title: title,
+    author: author,
+    description: description
+  };
+
+  const { data } = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, toUpdate);
+  jhas.value = data;
+} 
+
 export default {
   name: "App",
   components: {
@@ -61,13 +72,9 @@ export default {
     handleAdd() {
       fetchJhas()
     },
-    // showJha(jha) {
-    //   this.jha = jha;
-    //   this.isJhaVisible = true;
-    // },
-    // hideJha() {
-    //   this.isJhaVisible = false;
-    // },
+    updateJha(e) {
+      modifyJha(e)
+    }
   },
   setup() {
     onMounted(async () => {
@@ -80,7 +87,6 @@ export default {
 <template>
   <div class="w-full">
     <Header />
-    <div className="border-2">Made it</div>
     <AddJha v-show="isJhaVisible" @close="closeJha"           @finishAdding="handleAdd"></AddJha>
     <Modal
       v-show="isModalVisible"
@@ -88,9 +94,8 @@ export default {
       @close="closeModal"
       @deleteJha="handleDelete"
       @addJha="handleAdd"
+      @finishEditing="updateJha"
     >
-      <template v-slot:header> </template>
-      @deleteJha="handleDelete"
       <!-- <template v-slot:body>
       <JhaTile v-bind="jha"/>
     </template> -->
