@@ -15,8 +15,10 @@ export default {
     handleDelete() {
       this.$emit("deleteJha", this.id);
       this.$emit("close");
+    },
+    enableEdit() {
+      this.editable="true"
     }
-    
   },
   props: {
     id: Number,
@@ -70,8 +72,8 @@ export default {
       </section>
       <footer class="p-[15px] flex border-t-2 flex-col justify-end">
         <slot name="footer"> Default Footer </slot>
-        <button type="button" class="bg-green-300 border-2 rounded-md" @click="close">
-          Close Modal
+        <button type="button" class="bg-slate-200 border-2 rounded-md" @click="close">
+          Edit Job Hazard Analysis
         </button>
         <button type="button" class="bg-red-500 p-2" @click="handleDelete">Delete</button>
       </footer>
