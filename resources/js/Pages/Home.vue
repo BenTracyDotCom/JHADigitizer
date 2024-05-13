@@ -10,13 +10,12 @@ import JhaTile from "../Components/JhaTile.vue";
 import { ref, onMounted } from "vue";
 
 const jhas = ref([]);
-//Implement loading icon if time allows
-const fetching = ref(false);
 
 //TODO: handle errors/failures
-async function fetchJhas() {
+async function fetchJhas(id) {
   const { data } = await axios.get(`${import.meta.env.VITE_APP_URL}/api/jhas`);
   jhas.value = data;
+  return data.find(jha => jha.id === id);
 }
 
 async function deleteJha(id) {
@@ -33,6 +32,7 @@ async function modifyJha({ id, title, author, description}) {
 
   const { data } = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, toUpdate);
   jhas.value = data;
+
 } 
 
 export default {
@@ -70,11 +70,24 @@ export default {
     handleDelete(id) {
       deleteJha(id);
     },
-    handleAdd() {
+    refresh() {
       fetchJhas()
     },
     updateJha(e) {
       modifyJha(e)
+    },
+    // deleteStep(id) {
+    //   console.log('made it ', id)
+    //   fetchJhas(id)
+    //   .then(data => {
+    //     console.log(data)
+    //   })
+    // },
+    updateModal(data) {
+      console.log(data)
+      Object.keys(data).forEach(key => {
+        this.jha[key] = data[key]
+      })
     }
   },
   setup() {
@@ -88,14 +101,15 @@ export default {
 <template>
   <div class="w-full">
     <Header />
-    <AddJha v-show="isJhaVisible" @close="closeJha" @finishAdding="handleAdd"></AddJha>
+    <AddJha v-show="isJhaVisible" @close="closeJha" @finishAdding="refresh"></AddJha>
     <Modal
       v-show="isModalVisible"
       v-bind="jha"
       @close="closeModal"
       @deleteJha="handleDelete"
-      @addJha="handleAdd"
+      @refreshJhas="refresh"
       @finishEditing="updateJha"
+      @updateModal="updateModal"
     >
       <!-- <template v-slot:body>
       <JhaTile v-bind="jha"/>

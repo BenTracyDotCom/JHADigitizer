@@ -92,9 +92,16 @@ class StepController extends Controller
      */
     public function destroy(step $step)
     {
+      $jha = $step->jha_id;
       if($step){
         $step->delete();
       }
-      return response('Record successfully removed', 200);
+
+      $remaining = Step::with('hazards.controls')
+      ->where('jha_id', $jha)
+      ->orderBy('created_at', 'desc')
+      ->get();
+
+      return $remaining;
     }
 }

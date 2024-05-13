@@ -4,13 +4,20 @@ import axios from "axios";
 import Step from "../Components/Step.vue";
 
 const updateTitle = async (title, id) => {
-  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, { title })
-  return data
-}
+  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, { title });
+  return data;
+};
 
 const updateAuthor = async (author, id) => {
-  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, { author })
-  return data
+  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, {
+    author,
+  });
+  return data;
+};
+
+const deleteStep = async (id) => {
+  const data = await axios.delete(`${import.meta.env.VITE_APP_URL}/api/steps/${id}`)
+  return data;
 }
 
 export default {
@@ -32,7 +39,7 @@ export default {
     },
     disableEdit(id) {
       this.editable = false;
-      this.$emit("close");
+      this.listedSteps = this.steps;
     },
     editTitle() {
       this.titleEditable = true;
@@ -41,11 +48,10 @@ export default {
       this.titleEditable = false;
     },
     submitTitle(id) {
-      updateTitle(this.$refs.form$.data.title, id)
-      .then((res) => {
-        this.newTitle = res.data.title
-        this.titleEditable = false
-      })
+      updateTitle(this.$refs.form$.data.title, id).then((res) => {
+        this.newTitle = res.data.title;
+        this.titleEditable = false;
+      });
     },
     editAuthor() {
       this.authorEditable = true;
@@ -54,12 +60,21 @@ export default {
       this.authorEditable = false;
     },
     submitAuthor(id) {
-      updateAuthor(this.$refs.form$.data.author, id)
-      .then((res) => {
-        this.newAuthor = res.data.author
-        this.authorEditable = false
-      })
+      updateAuthor(this.$refs.form$.data.author, id).then((res) => {
+        this.newAuthor = res.data.author;
+        this.authorEditable = false;
+      });
     },
+    removeStep(id) {
+      deleteStep(id)
+      .then(res => {
+        const toUpdate = {
+          steps: res.data
+        }
+        this.$emit('updateModal', toUpdate)
+      })
+      //this.$emit('deleteStep', id)
+    }
   },
   props: {
     id: Number,
@@ -76,7 +91,8 @@ export default {
       titleEditable: false,
       authorEditable: false,
       newTitle: false,
-      newAuthor: false
+      newAuthor: false,
+      listedSteps: this.steps
     };
   },
 };
@@ -124,11 +140,13 @@ export default {
               </div>
             </div>
           </div>
-          <div class="text-md" v-if="!authorEditable">Created by {{ this.newAuthor ? this.newAuthor : author }}</div>
+          <div class="text-md" v-if="!authorEditable">
+            Created by {{ this.newAuthor ? this.newAuthor : author }}
+          </div>
           <div v-else>
             <Vueform ref="form$">
-                <TextElement name="author" placeholder="Author" rules="required" />
-              </Vueform>
+              <TextElement name="author" placeholder="Author" rules="required" />
+            </Vueform>
           </div>
           <div>
             <div v-if="editable && !authorEditable">
@@ -175,15 +193,14 @@ export default {
             <div>Hazards</div>
             <div>Controls</div>
           </div>
-          <div v-for="(step, index) in steps">
+          <div v-for="(listedStep, index) in steps">
             <div class="border-b-2 border-x-2">
-              <Step :key="index" :num="index" v-bind="step" :editable="editable" />
+              <Step :key="index" :num="index" v-bind="listedStep" :editable="editable" @deleteStep="removeStep"/>
             </div>
           </div>
         </slot>
       </section>
       <footer class="p-[15px] flex border-t-2 flex-col justify-end">
-        <slot name="footer"> Default Footer </slot>
         <button
           type="button"
           class="bg-slate-200 border-2 rounded-md"
@@ -200,7 +217,9 @@ export default {
         >
           Finish editing
         </button>
-        <button type="button" class="bg-red-500 p-2" @click="() => handleDelete(id)">Delete</button>
+        <button type="button" class="bg-red-500 p-2" @click="() => handleDelete(id)">
+          Delete
+        </button>
       </footer>
     </div>
   </div>
