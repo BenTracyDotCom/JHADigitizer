@@ -59,6 +59,7 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+      fetchJhas()
     },
     showJha() {
       this.isJhaVisible = true;

@@ -22,23 +22,17 @@ export default {
     close() {
       this.$emit("close");
     },
-    handleDelete() {
-      this.disableEdit();
-      this.$emit("deleteJha", this.id);
+    handleDelete(id) {
+      this.editable = false;
+      this.$emit("deleteJha", id);
       this.$emit("close");
     },
     enableEdit() {
       this.editable = true;
     },
     disableEdit(id) {
-      const toSend = {
-        ...this.$refs.form$.data,
-        id: this.id,
-      };
       this.editable = false;
-      this.$emit("finishEditing", toSend);
       this.$emit("close");
-      this.$refs.form$.clear();
     },
     editTitle() {
       this.titleEditable = true;
@@ -206,7 +200,7 @@ export default {
         >
           Finish editing
         </button>
-        <button type="button" class="bg-red-500 p-2" @click="handleDelete">Delete</button>
+        <button type="button" class="bg-red-500 p-2" @click="() => handleDelete(id)">Delete</button>
       </footer>
     </div>
   </div>
