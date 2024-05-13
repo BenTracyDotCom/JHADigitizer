@@ -83,10 +83,7 @@ class JhaController extends Controller
     $jha->description = $description ? $description : $jha->description;
     $jha->save();
 
-    $jhas = Jha::with('steps.hazards.controls')
-    ->orderBy('updated_at', 'desc')
-    ->get();
-    return $jhas;
+    return $jha;
   }
 
   /**

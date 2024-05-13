@@ -54,7 +54,7 @@ export default {
       <GroupElement name="hazard">
         <TextElement name="title" placeholder="Hazard" rules="required" />
       </GroupElement>
-      <ButtonElement v-if="!haSaved" name="submit" submits> Save </ButtonElement>
+      <ButtonElement v-if="!hasSaved" name="submit" submits> Save </ButtonElement>
     </Vueform>
     <div v-else>{{ this.title }}</div>
     <div class="bg-teal-300" @click="handleAddControl" v-if="hazard">Add Controls</div>

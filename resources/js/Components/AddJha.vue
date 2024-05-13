@@ -72,11 +72,14 @@ export default {
   <div class="fixed inset-0 bg-black/50 flex justify-center items-center">
     <div class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-4/6 h-5/6">
       <!-- <input v-model="title" placeholder="Add Title" /> -->
+      <div class="w-full flex flex-row justify-between px-2">
+        <div class="font-bold text-2xl pt-2">Job</div>
+        <div class="text-red-500 text-4xl h-min -mt-1" @click="close">x</div>
+      </div>
       <Vueform :endpoint="false" ref="form$" @submit="sendJha" v-if="!jha">
         <!-- <StaticElement name="head">
           <div>Job</div>
         </StaticElement> -->
-        <div class="font-bold text-2xl pt-2 pl-2 -mb-2">Job</div>
         <TextElement name="title" rules="required" class="px-2" />
         <GroupElement
           name="author"

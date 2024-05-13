@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 const control = ref(null);
 
-async function postHazard({ hazard_id, title }) {
+async function postControl({ hazard_id, title }) {
   const toSend = {
     hazard_id: hazard_id,
     title: title,
@@ -14,7 +14,7 @@ async function postHazard({ hazard_id, title }) {
     `${import.meta.env.VITE_APP_URL}/api/controls`,
     toSend
   );
-  hazard.value = data;
+  control.value = data;
 }
 export default {
   name: "AddableControl",
@@ -30,14 +30,12 @@ export default {
   },
   methods: {
     sendControl() {
+      console.log('sending?')
       const form = this.$refs.form$.data;
       form.hazard_id = this.id;
-      postHazard(form);
+      postControl(form);
       this.hasSaved = true;
       this.title = form.title
-    },
-    handleAddControl() {
-      this.controls[this.controls.length] = this.controls.length + 1;
     },
   },
 };
@@ -45,11 +43,11 @@ export default {
 
 <template>
   <div>
-    <Vueform :endpoint="false" ref="form$" @submit="sendHazard" v-if="!this.hasSaved">
+    <Vueform :endpoint="false" ref="form$" @submit="sendControl" v-if="!this.hasSaved">
       <GroupElement name="control">
         <TextElement name="title" placeholder="Control" rules="required" />
       </GroupElement>
-      <ButtonElement v-if="!haSaved" name="submit" submits> Save </ButtonElement>
+      <ButtonElement v-if="!hasSaved" name="submit" submits> Save </ButtonElement>
     </Vueform>
     <div v-else>{{ this.title }}</div>
   </div>
