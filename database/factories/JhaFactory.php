@@ -17,7 +17,7 @@ class JhaFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->text(30),
+            'title' => rtrim(fake()->text(30), '.'),
             'author' => fake()->firstName().' '.fake()->lastName(),
             'description' => fake()->sentence(3)
         ];

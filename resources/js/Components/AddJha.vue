@@ -40,7 +40,6 @@ export default {
         toSubmit.description = form.description;
       }
       addJha(toSubmit);
-      this.$refs.form$.clear();
     },
     handleAddStep() {
       if (!this.steps.length || Object.keys(this.steps).every((step) => !!step)) {
@@ -51,6 +50,7 @@ export default {
       this.$emit("finishAdding")
       this.$emit("close")
       this.jha = null
+      this.$refs.form$.clear()
     }
   },
   data() {
@@ -116,9 +116,6 @@ export default {
           {{ new Date(this.jha.created_at).toLocaleDateString() }}
         </div>
       </div>
-      <!-- <button type="button" @click="sendJha">
-        Create JHA form
-      </button> -->
       <div v-if="jha" class="h-full">
         <div class="w-full flex flex-row justify-around">
           <div v-if="steps" v-for="(step, index) in steps" :key="index">

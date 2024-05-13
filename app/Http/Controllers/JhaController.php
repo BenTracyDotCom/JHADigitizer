@@ -15,7 +15,9 @@ class JhaController extends Controller
    */
   public function index()
   {
-    $jhas = Jha::with('steps.hazards.controls')->get();
+    $jhas = Jha::with('steps.hazards.controls')
+    ->orderBy('updated_at', 'desc')
+    ->get();
     return $jhas;
   }
 
