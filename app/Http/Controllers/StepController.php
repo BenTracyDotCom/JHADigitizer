@@ -84,7 +84,7 @@ class StepController extends Controller
 
         $step->save();
 
-        return response('Record updated successfully', 200);
+        return $step;
     }
 
     /**

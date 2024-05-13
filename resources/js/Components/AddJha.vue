@@ -6,8 +6,6 @@ import { getCurrentInstance } from "vue";
 
 const jha = ref(null);
 
-//From this component, I want to be able to add steps to my "steps" array to map. I want to keep an "add step" button, but only actually add a step then each of the others is populated with at least a 'title'.
-
 async function addJha({ title, author, description }) {
   const toSend = {
     title: title,
