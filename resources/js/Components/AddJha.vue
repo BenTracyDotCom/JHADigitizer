@@ -134,12 +134,14 @@ export default {
         <div v-if="steps" v-for="(step, index) in steps" :key="index">
           <AddableStep v-bind="jha" :index="index" />
         </div>
-        <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">
-          Add step
-        </button>
-        <button type="button" class="bg-green-500 rounded-md p-2" @click="handleFinish">
-          Save & Exit
-        </button>
+        <div class="w-full flex flex-row justify-around pt-3 bb-2">
+          <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">
+            Add step
+          </button>
+          <button type="button" class="bg-green-500 rounded-md p-2" @click="handleFinish">
+            Save & Exit
+          </button>
+        </div>
       </div>
     </div>
   </div>

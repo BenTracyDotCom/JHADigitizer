@@ -15,27 +15,48 @@ async function postControl({ hazard_id, title }) {
     toSend
   );
   control.value = data;
+  return data
+}
+
+async function deleteControl(id) {
+  const { data } = await axios.delete(
+    `${import.meta.env.VITE_APP_URL}/api/controls/${id}`
+  )
+  return data
 }
 export default {
   name: "AddableControl",
   props: {
     id: Number,
+    index: Number,
+    present: Boolean,
+    control
   },
   data() {
     return {
-      control: control,
+      // control: control,
       hasSaved: false,
-      title: ''
+      title: "",
     };
   },
   methods: {
     sendControl() {
       const form = this.$refs.form$.data;
       form.hazard_id = this.id;
-      postControl(form);
-      this.hasSaved = true;
-      this.title = form.title
+      postControl(form)
+      .then(data => {
+        this.$emit('controlSaved', { data, index:this.index})
+        this.hasSaved = true;
+        this.title = form.title;
+      })
     },
+    handleDelete() {
+      if(this.hasSaved){
+        deleteControl(this.control.id)
+      }
+      console.log(' control deleting')
+      this.$emit('deleteControl', this.control)
+    }
   },
 };
 </script>
@@ -46,8 +67,22 @@ export default {
       <GroupElement name="control">
         <TextElement name="title" placeholder="Control" rules="required" />
       </GroupElement>
-      <ButtonElement v-if="!hasSaved" name="submit" submits> Save </ButtonElement>
+      <div>
+        <ButtonElement v-if="!hasSaved" name="submit" submits class="invisible">
+        </ButtonElement>
+      </div>
     </Vueform>
-    <div v-else>{{ this.title }}</div>
+      <div class="flex flex-row justify-around -mt-8" v-if="!this.hasSaved && !this.present">
+        <div class="cursor-pointer bg-green-500 w-4 rounded-full" @click="handleDelete">
+          <img src="/images/minus-button.png"/>
+        </div>
+        <div class="cursor-pointer bg-green-500 w-4 rounded-full" @click="sendControl">
+          <img src="/images/accept.png"/>
+        </div>
+      </div>
+    <div v-else class="flex flex-row">
+      <div>{{ this.present ? this.control.title : this.title }}</div>
+      <div @click="handleDelete" class="text-red-500">x</div>
+    </div>
   </div>
 </template>

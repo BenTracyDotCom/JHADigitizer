@@ -43,18 +43,13 @@ export default {
     handleAddHazard() {
       this.hazards[this.hazards.length] = this.hazards.length + 1;
     },
-    // addStep() {
-    //   if(this.$refs.form$.every($form => ($form.data.title))){
-    //     this.steps[this.steps.length] = ''
-    //   }
-    // },
   },
 };
 </script>
 
 <template>
-  <div class="grid grid-cols-3 h-fit">
-    <div class="border-r-2 border-b-2">
+  <div class="grid grid-cols-3 h-fit  border-b-2">
+    <div class="border-r-2">
       <div>Step {{ index + 1 }}</div>
       <div class="">
         <div v-if="this.step">{{ this.title }}</div>
@@ -62,14 +57,25 @@ export default {
           <GroupElement name="step">
             <TextElement name="title" placeholder="Description" rules="required" />
           </GroupElement>
-          <ButtonElement v-if="!this.hasSaved" name="submit" submits>
+          <ButtonElement v-if="!this.hasSaved" name="submit" class="invisible" submits>
             Save
           </ButtonElement>
         </Vueform>
+        <div class="flex flex-row justify-around -mt-12 mb-2" v-if="!this.hasSaved">
+        <div
+          class="w-fit rounded-full bg-red-500 px-2 h-6 pt-1 text-xs font-black cursor-pointer"
+          @click="this.$emit('deleteControl', control)"
+        >
+          X
+        </div>
+        <div class="cursor-pointer bg-green-500 w-6 rounded-full"  @click="addStep">
+          <img src="/images/accept.png"/>
+        </div>
+      </div>
         <div
           class="bg-yellow-500 w-fit px-1 rounded-lg"
-          @click="handleAddHazard"
           v-if="this.hasSaved"
+          @click="handleAddHazard"
         >
           + Hazard
         </div>
