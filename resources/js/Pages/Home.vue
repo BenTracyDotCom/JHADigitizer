@@ -83,13 +83,6 @@ export default {
     updateJha(e) {
       modifyJha(e);
     },
-    // deleteStep(id) {
-    //   console.log('made it ', id)
-    //   fetchJhas(id)
-    //   .then(data => {
-    //     console.log(data)
-    //   })
-    // },
     updateModal(id) {
       fetchJhas(id);
     },

@@ -49,17 +49,21 @@ export default {
 </script>
 
 <template>
-  <div>
-    <Vueform :endpoint="false" ref="form$" @submit="sendHazard" v-if="!this.hasSaved">
-      <GroupElement name="hazard">
-        <TextElement name="title" placeholder="Hazard" rules="required" />
-      </GroupElement>
-      <ButtonElement v-if="!hasSaved" name="submit" submits> Save </ButtonElement>
-    </Vueform>
-    <div v-else>{{ this.title }}</div>
-    <div class="bg-teal-300" @click="handleAddControl" v-if="hazard">Add Controls</div>
-    <div v-if="controls" v-for="(control, index) in controls" :key="index">
-      <AddableControl v-bind="hazard" :index="index" />
+  <div class="grid grid-cols-2">
+    <div class="border-r-2">
+      <Vueform :endpoint="false" ref="form$" @submit="sendHazard" v-if="!this.hasSaved">
+        <GroupElement name="hazard">
+          <TextElement name="title" placeholder="Hazard" rules="required" />
+        </GroupElement>
+        <ButtonElement v-if="!hasSaved" name="submit" submits> Save </ButtonElement>
+      </Vueform>
+      <div v-else>{{ this.title }}</div>
+      <div class="bg-teal-300 w-fit px-1 rounded-lg" @click="handleAddControl" v-if="hasSaved">+ Control</div>
+    </div>
+    <div>
+      <div v-if="controls" v-for="(control, index) in controls" :key="index">
+        <AddableControl v-bind="hazard" :index="index" />
+      </div>
     </div>
   </div>
 </template>

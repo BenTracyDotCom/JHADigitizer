@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     sendControl() {
-      console.log('sending?')
       const form = this.$refs.form$.data;
       form.hazard_id = this.id;
       postControl(form);

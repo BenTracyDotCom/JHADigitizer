@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     close() {
+      this.steps = []
       this.$emit("close");
     },
     sendJha() {
@@ -38,7 +39,7 @@ export default {
         toSubmit.description = form.description;
       }
       addJha(toSubmit);
-      this.$emit("finishAdding")
+      this.$emit("finishAdding");
     },
     handleAddStep() {
       if (!this.steps.length || Object.keys(this.steps).every((step) => !!step)) {
@@ -46,10 +47,11 @@ export default {
       }
     },
     handleFinish() {
-      this.$emit("finishAdding")
-      this.$emit("close")
-      this.jha = null
-    }
+      this.$emit("finishAdding");
+      this.$emit("close");
+      this.steps = []
+      this.jha = null;
+    },
   },
   data() {
     return {
@@ -68,11 +70,12 @@ export default {
 
 <template>
   <div class="fixed inset-0 bg-black/50 flex justify-center items-center">
-    <div class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-4/6 h-fit p-2">
+    <div
+      class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-5/6 h-fit p-2"
+    >
       <!-- <input v-model="title" placeholder="Add Title" /> -->
       <div class="w-full flex flex-row justify-between px-2">
-        <div class="font-bold text-2xl">Job</div>
-        <div class="text-red-500 text-3xl h-min -mt-2" @click="close">x</div>
+        <div class="font-bold text-2xl" v-if="!jha">Job</div>
       </div>
       <Vueform :endpoint="false" ref="form$" @submit="sendJha" v-if="!jha">
         <!-- <StaticElement name="head">
@@ -110,18 +113,26 @@ export default {
           Create JHA Form
         </ButtonElement>
       </Vueform>
-      <div v-else class="border-b-2 border-black pl-2 text-center">
-        <div class="text-2xl font-bold pt-2">{{ this.jha.title }}</div>
-        <div class="">
-          Submitted by {{ this.jha.author }} on
-          {{ new Date(this.jha.created_at).toLocaleDateString() }}
-        </div>
+      <div v-else class="border-b-2 border-black pl-2">
+        <div class="flex flex-row justify-between">
+          <div>
+            <div class="text-2xl font-bold">{{ this.jha.title }}</div>
+            <div class="">
+              Created by {{ this.jha.author }} on
+              {{ new Date(this.jha.created_at).toLocaleDateString() }}
+          </div>
+        </div><div class="text-red-500 text-3xl h-min -mt-2" @click="close">x</div>
+          </div>
+          
       </div>
       <div v-if="jha" class="h-full">
-        <div class="w-full flex flex-row justify-around">
-          <div v-if="steps" v-for="(step, index) in steps" :key="index">
-            <AddableStep v-bind="jha" :index="index" />
-          </div>
+        <div class="grid grid-cols-3 border-b-2">
+          <div>Steps</div>
+          <div>Hazards</div>
+          <div>Controls</div>
+        </div>
+        <div v-if="steps" v-for="(step, index) in steps" :key="index">
+          <AddableStep v-bind="jha" :index="index" />
         </div>
         <button type="button" class="bg-blue-500 rounded-md p-2" @click="handleAddStep">
           Add step
@@ -129,7 +140,6 @@ export default {
         <button type="button" class="bg-green-500 rounded-md p-2" @click="handleFinish">
           Save & Exit
         </button>
-        <div class="p2 bg-red-500 self-end" @click="close">Close</div>
       </div>
     </div>
   </div>
