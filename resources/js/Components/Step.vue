@@ -16,7 +16,7 @@ const deleteStep = async (id) => {
 const postHazard = async (id) => {
   const toSend = {
     step_id: id,
-    title: "New Hazard",
+    title: "Edit me",
   };
 
   const { data } = await axios.post(
@@ -87,7 +87,9 @@ export default {
   },
   computed: {
     listedHazards() {
-      return this.hazards.concat(this.mutableHazards);
+      if(this.hazards){
+        return this.hazards.concat(this.mutableHazards);
+      }
     },
   },
 };
@@ -96,13 +98,13 @@ export default {
   <div>
     <div class="grid grid-cols-3">
       <div class="border-r-2">
-        <div v-if="editable" class="w-full flex flex-row justify-between">
+        <div v-if="editable" class="w-full flex flex-row justify-between cursor-pointer">
           <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
         <div v-if="num || num === 0" class="font-bold text-sm">Step {{ num + 1 }}</div>
         <div v-if="stepEditable">
-          <div contenteditable class="text-blue-500" @keydown.enter="setNewTitle">
+          <div contenteditable class="text-blue-500 border-2 rounded-full pl-2" @keydown.enter="setNewTitle">
             {{ newTitle ? newTitle : title }}
           </div>
         </div>
@@ -120,6 +122,7 @@ export default {
         <div v-for="(hazard, index) in listedHazards" class="">
           <Hazard
             v-bind="hazard"
+            :controls=[]
             :key="index"
             :editable="editable"
             @updateModal="updateModal"

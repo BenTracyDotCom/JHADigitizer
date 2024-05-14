@@ -98,7 +98,11 @@ export default {
 <template>
   <div class="w-full">
     <Header />
-    <AddJha v-show="isJhaVisible" @close="closeJha" @finishAdding="refresh"></AddJha>
+    <AddJha 
+      v-show="isJhaVisible"
+      @close="closeJha"
+      @finishAdding="refresh"
+    ></AddJha>
     <Modal
       v-show="isModalVisible"
       v-bind="jha"

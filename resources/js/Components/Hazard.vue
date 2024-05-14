@@ -17,7 +17,7 @@ const deleteHazard = async (id) => {
 const postControl = async (id) => {
   const toSend = {
     hazard_id: id,
-    title: "New Control",
+    title: "Edit me",
   };
 
   const { data } = await axios.post(
@@ -87,7 +87,7 @@ export default {
 </script>
 <template>
   <div>
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-2 border-b-2 border-b-2 border-dashed">
       <div class="border-r-2">
         <div v-if="editable" class="w-full flex flex-row justify-between">
           <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />

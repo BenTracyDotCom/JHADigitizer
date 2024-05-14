@@ -136,8 +136,10 @@ export default {
               {{ this.newTitle ? this.newTitle : title }}
             </div>
             <div v-else>
-              <Vueform ref="form$">
+              <Vueform ref="form$" :endpoint="false" @submit="() => submitTitle(id)">
                 <TextElement name="title" placeholder="Title" rules="required" />
+              <ButtonElement class="invisible" name="submit" submits>
+              </ButtonElement>
               </Vueform>
             </div>
             <div v-if="editable && !titleEditable">
@@ -173,9 +175,12 @@ export default {
               Created by {{ this.newAuthor ? this.newAuthor : author }}
             </div>
             <div v-else>
-              <Vueform ref="form$">
+              <Vueform ref="form$" :endpoint="false" @submit="() => submitAuthor(id)">
                 <TextElement name="author" placeholder="Author" rules="required" />
+              <ButtonElement class="invisible" name="submit" submits>
+              </ButtonElement>
               </Vueform>
+          Create JHA Form
             </div>
             <div>
               <div v-if="editable && !authorEditable">
@@ -234,11 +239,13 @@ export default {
               />
             </div>
           </div>
-          <div v-if="editable">
-            <Step :title="'Add Step'"
-            :hazards="[]"
-            @click="addStep"
-            @updateModal="updateModal"/>
+          <div v-if="editable" class="w-full flex flex-row justify-start">
+            <div
+          @click="addStep"
+          class="bg-green-500 p-1 rounded-xl text-center text-sm border-2 w-2/6 mt-2"
+        >
+          Add Step
+        </div>
           </div>
         </slot>
       </section>

@@ -98,7 +98,7 @@ export default {
       </div>
       <div v-else class="flex flex-row">
       <div>{{ this.present ? this.hazard.title : this.title }}</div>
-      <div @click="handleDelete" class="text-red-500">x</div>
+      <div @click="handleDelete" class="text-red-500 cursor-pointer">x</div>
     </div>
       <div
         class="bg-teal-300 w-fit px-1 rounded-lg"
