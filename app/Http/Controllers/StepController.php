@@ -76,7 +76,6 @@ class StepController extends Controller
      */
     public function update(UpdatestepsRequest $request, step $step)
     {
-        error_log($request->title);
         $title = $request->title;
         $image = $request->image;
 

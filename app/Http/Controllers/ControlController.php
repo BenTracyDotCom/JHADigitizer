@@ -71,13 +71,13 @@ class ControlController extends Controller
    */
   public function update(UpdatecontrolsRequest $request, control $control)
   {
-    $title = $request->title();
+    $title = $request->title;
 
     $control->title = $title ? $title : $control->title;
 
     $control->save();
 
-    return response('Record updated successfully', 200);
+    return $control;
   }
 
   /**
