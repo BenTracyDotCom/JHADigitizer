@@ -43,6 +43,15 @@ export default {
     handleAddHazard() {
       this.hazards[this.hazards.length] = this.hazards.length + 1;
     },
+    handleNewHazard(hazard) {
+      this.hazards[hazard.index] = hazard.data;
+    },
+    handleRemoveHazard(hazard) {
+      console.log(hazard,' remove this ish from me')
+      console.log(this.hazards, "hazards present")
+      this.hazards = this.hazards.filter(element => (element !== hazard));
+      console.log(this.hazards, "hazards present after filter")
+    }
   },
 };
 </script>
@@ -81,9 +90,16 @@ export default {
         </div>
       </div>
     </div>
-      <div class="col-span-2">
+      <div class="col-span-2" :key="hazards">
         <div v-if="hazards" v-for="(hazard, index) in hazards" :key="index">
-          <AddableHazard v-bind="step" :index="index" />
+          <AddableHazard
+          v-bind="step"
+          :index="index" 
+          :hazard="hazard"
+          :present="typeof hazard !== 'number'"
+          @hazardSaved="handleNewHazard"
+          @deleteHazard="handleRemoveHazard"
+          />
         </div>
       </div>
   </div>

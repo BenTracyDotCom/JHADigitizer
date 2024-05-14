@@ -34,7 +34,6 @@ export default {
   },
   data() {
     return {
-      // control: control,
       hasSaved: false,
       title: "",
     };
@@ -54,7 +53,6 @@ export default {
       if(this.hasSaved){
         deleteControl(this.control.id)
       }
-      console.log(' control deleting')
       this.$emit('deleteControl', this.control)
     }
   },
