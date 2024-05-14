@@ -137,10 +137,9 @@ export default {
           class="border-2 bg-green-100 rounded-lg p-2 mx-auto"
           @click="showJha"
         >
-          Add a JHA
+          Add a Job Hazard Analysis
         </button>
       </div>
     </div>
-    <Footer />
   </div>
 </template>

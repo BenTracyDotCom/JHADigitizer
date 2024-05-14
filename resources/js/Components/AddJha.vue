@@ -38,6 +38,7 @@ export default {
         toSubmit.description = form.description;
       }
       addJha(toSubmit);
+      this.$emit("finishAdding")
     },
     handleAddStep() {
       if (!this.steps.length || Object.keys(this.steps).every((step) => !!step)) {
@@ -67,11 +68,11 @@ export default {
 
 <template>
   <div class="fixed inset-0 bg-black/50 flex justify-center items-center">
-    <div class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-4/6 h-5/6">
+    <div class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-4/6 h-fit p-2">
       <!-- <input v-model="title" placeholder="Add Title" /> -->
       <div class="w-full flex flex-row justify-between px-2">
-        <div class="font-bold text-2xl pt-2">Job</div>
-        <div class="text-red-500 text-4xl h-min -mt-1" @click="close">x</div>
+        <div class="font-bold text-2xl">Job</div>
+        <div class="text-red-500 text-3xl h-min -mt-2" @click="close">x</div>
       </div>
       <Vueform :endpoint="false" ref="form$" @submit="sendJha" v-if="!jha">
         <!-- <StaticElement name="head">
@@ -99,13 +100,13 @@ export default {
             :columns="6"
           />
         </GroupElement>
-        <TextareaElement
+        <!-- <TextareaElement
           label="Description"
           name="description"
           placeholder="Optional"
           class="px-2"
-        />
-        <ButtonElement v-if="!jha" class="mx-auto" name="submit" submits>
+        /> -->
+        <ButtonElement v-if="!jha" class="mx-auto mb-2" name="submit" submits>
           Create JHA Form
         </ButtonElement>
       </Vueform>
