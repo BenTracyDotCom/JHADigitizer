@@ -18,7 +18,7 @@ async function fetchJhas(id) {
   jhas.value = data;
   // console.log(data, ' data ', id, ' id');
   // console.log(data.find(jha => jha.id === id))
-  jha.value = data.find(jha => jha.id === id)
+  jha.value = data.find((jha) => jha.id === id);
   // return data.find(jha => jha.id === id);
 }
 
@@ -27,17 +27,19 @@ async function deleteJha(id) {
   jhas.value = data;
 }
 
-async function modifyJha({ id, title, author, description}) {
+async function modifyJha({ id, title, author, description }) {
   const toUpdate = {
     title: title,
     author: author,
-    description: description
+    description: description,
   };
 
-  const { data } = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, toUpdate);
+  const { data } = await axios.put(
+    `${import.meta.env.VITE_APP_URL}/api/jhas/${id}`,
+    toUpdate
+  );
   jhas.value = data;
-
-} 
+}
 
 export default {
   name: "App",
@@ -48,10 +50,7 @@ export default {
     Footer,
     JhaTile,
   },
-  setup(props) {
-
-    
-  },
+  setup(props) {},
   data() {
     return {
       isModalVisible: false,
@@ -67,7 +66,7 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
-      fetchJhas()
+      fetchJhas();
     },
     showJha() {
       this.isJhaVisible = true;
@@ -79,10 +78,10 @@ export default {
       deleteJha(id);
     },
     refresh(id) {
-      fetchJhas(id)
+      fetchJhas(id);
     },
     updateJha(e) {
-      modifyJha(e)
+      modifyJha(e);
     },
     // deleteStep(id) {
     //   console.log('made it ', id)
@@ -92,8 +91,8 @@ export default {
     //   })
     // },
     updateModal(id) {
-      fetchJhas(id)
-    }
+      fetchJhas(id);
+    },
   },
   setup() {
     onMounted(async () => {

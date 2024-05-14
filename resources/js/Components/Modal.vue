@@ -1,5 +1,5 @@
 <script>
-import { ref } from "vue";
+import { ref, toRef } from "vue";
 import axios from "axios";
 import Step from "../Components/Step.vue";
 
@@ -17,8 +17,14 @@ const updateAuthor = async (author, id) => {
   return data;
 };
 
-const deleteStep = async (id) => {
-  const data = await axios.delete(`${import.meta.env.VITE_APP_URL}/api/steps/${id}`);
+const postStep = async (id) => {
+  const toSend = {
+    jha_id: id,
+    title: "New Step",
+  };
+
+  const { data } = await axios.post(`${import.meta.env.VITE_APP_URL}/api/steps`, toSend);
+
   return data;
 };
 
@@ -27,6 +33,18 @@ export default {
   components: {
     Step,
   },
+  // setup(props) {
+  //   const listedSteps = ref(props.steps);
+
+  //   const addStep = () => {
+  //     postStep(props.id)
+  //     .then(data => {
+  //       listedSteps.value = listedSteps.value.concat(data)
+  //     })
+  //   }
+
+  //   return { addStep };
+  // },
   methods: {
     close() {
       this.$emit("close");
@@ -43,7 +61,6 @@ export default {
     },
     disableEdit(id) {
       this.editable = false;
-      this.listedSteps = this.steps;
       this.$emit("updateModal", id);
     },
     editTitle() {
@@ -70,10 +87,17 @@ export default {
         this.authorEditable = false;
       });
     },
-    updateModal(){
+    addStep(){
+      postStep(this.id)
+      .then(data => {
+        console.log(data, " putting on our mutable data")
+        this.mutableSteps = this.mutableSteps.concat(data)
+      })
+    },
+    updateModal() {
       this.$emit("updateModal", this.id);
-    }
-    //this.$emit('deleteStep', id)
+      this.mutableSteps = [];
+    },
   },
   props: {
     id: Number,
@@ -91,8 +115,13 @@ export default {
       authorEditable: false,
       newTitle: false,
       newAuthor: false,
-      listedSteps: this.steps,
+      mutableSteps: [],
     };
+  },
+  computed: {
+    listedSteps(){
+      return this.steps.concat(this.mutableSteps)
+    }
   },
 };
 </script>
@@ -194,7 +223,7 @@ export default {
             <div>Hazards</div>
             <div>Controls</div>
           </div>
-          <div v-for="(step, index) in steps">
+          <div v-for="(step, index) in listedSteps">
             <div class="border-b-2 border-x-2">
               <Step
                 :key="step.id"
@@ -204,6 +233,12 @@ export default {
                 @updateModal="updateModal"
               />
             </div>
+          </div>
+          <div v-if="editable">
+            <Step :title="'Add Step'"
+            :hazards="[]"
+            @click="addStep"
+            @updateModal="updateModal"/>
           </div>
         </slot>
       </section>

@@ -52,7 +52,7 @@ export default {
 </script>
 <template>
   <div>
-    <div class="grid grid-cols-3">
+    <div class="">
       <div class="border-r-2">
         <div v-if="editable" class="w-full flex flex-row justify-between">
           <img

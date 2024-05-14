@@ -21,10 +21,7 @@ export default {
     // })
     const newTitle = ref(null);
     const setNewTitle = (e) => {
-      console.log(e.target.innerHTML, " title");
-      updateTitle(e.target.innerHTML, props.id).then((res) => {
-        console.log(res);
-      });
+      updateTitle(e.target.innerHTML, props.id)
       newTitle.value = e.target.innerHTML.trim();
       stepEditable.value = false;
     };
@@ -42,22 +39,20 @@ export default {
   },
   props: {
     num: Number,
-    id: { required: true, type: Number },
+    id: Number,
     title: { required: true, type: String },
     hazards: { type: Array, default: [] },
     editable: { type: Boolean, default: false },
   },
   methods: {
     handleEdit() {
-      console.log('this one being called?')
       this.stepEditable = true;
     },
     handleDelete() {
       deleteStep(this.id)
       .then(() => (
         this.$emit("updateModal")
-      )
-      )
+      ))
     },
     updateModal() {
       this.$emit("updateModal");
@@ -84,12 +79,12 @@ export default {
         <div v-if="editable" class="w-full flex flex-row justify-between">
           <img
             src="/images/delete-button.png"
-            @click="() => handleDelete(id)"
+            @click="handleDelete"
             class="h-3"
           />
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
-        <div>Step {{ num + 1 }}</div>
+        <div v-if="num">Step {{ num + 1 }}</div>
         <div v-if="stepEditable">
           <div contenteditable class="text-blue-500" @keydown.enter="setNewTitle">
             {{ newTitle ? newTitle : title }}
