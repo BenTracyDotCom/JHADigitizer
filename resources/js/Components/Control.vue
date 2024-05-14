@@ -44,7 +44,7 @@ export default {
     }
   },
   props: {
-    id: { required: true, type: Number },
+    id: Number,
     title: { required: true, type: String },
     editable: { type: Boolean, default: false },
   },

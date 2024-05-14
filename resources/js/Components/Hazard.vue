@@ -14,18 +14,25 @@ const deleteHazard = async (id) => {
   return data;
 };
 
+const postControl = async (id) => {
+  const toSend = {
+    hazard_id: id,
+    title: "New Control",
+  };
+
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_APP_URL}/api/controls`,
+    toSend
+  );
+
+  return data;
+};
+
 export default {
   setup(props) {
-    // onUnmounted(() => {
-    //   newTitle.value = null
-    //   console.log('beforeUnmount')
-    // })
     const newTitle = ref(null);
     const setNewTitle = (e) => {
-      console.log(e.target.innerHTML, " title");
-      updateTitle(e.target.innerHTML, props.id).then((res) => {
-        console.log(res);
-      });
+      updateTitle(e.target.innerHTML, props.id);
       newTitle.value = e.target.innerHTML.trim();
       hazardEditable.value = false;
     };
@@ -45,50 +52,66 @@ export default {
       this.hazardEditable = true;
     },
     handleDelete() {
-      deleteHazard(this.id)
-      .then(() => {
-        this.$emit("updateModal")
-      })
+      deleteHazard(this.id).then(() => {
+        this.$emit("updateModal");
+        this.mutableControls = [];
+      });
     },
     updateModal() {
       this.$emit("updateModal");
-    }
+      this.mutableControls = [];
+    },
+    addControl() {
+      postControl(this.id).then((data) => {
+        this.mutableControls = this.mutableControls.concat(data);
+      });
+    },
   },
   props: {
-    id: { required: true, type: Number },
+    id: Number,
     title: { required: true, type: String },
     controls: { type: Array },
     editable: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      mutableControls: [],
+    };
+  },
+  computed: {
+    listedControls() {
+      return this.controls.concat(this.mutableControls);
+    },
   },
 };
 </script>
 <template>
   <div>
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-2">
       <div class="border-r-2">
         <div v-if="editable" class="w-full flex flex-row justify-between">
-          <img
-            src="/images/delete-button.png"
-            @click="handleDelete"
-            class="h-3"
-          />
+          <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
         <div v-if="hazardEditable">
-          <div
-            contenteditable
-            class="text-blue-500"
-            @keydown.enter="setNewTitle"
-          >
+          <div contenteditable class="text-blue-500" @keydown.enter="setNewTitle">
             {{ newTitle ? newTitle : title }}
           </div>
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>
-      <div class="col-span-2 h-full content-fit">
-        <div v-for="(control, index) in controls" class="">
-          <Control v-bind="control" :key="control.id" :editable="editable" @updateModal="updateModal"/>
+      <div class="h-full content-fit">
+        <div v-for="(control, index) in listedControls" class="">
+          <Control
+            v-bind="control"
+            :key="control.id"
+            :editable="editable"
+            @updateModal="updateModal"
+          />
         </div>
+      </div>
+      <div v-if="editable">
+      <div @click="addControl" class="bg-blue-300 p-1 rounded-xl text-center text-xs mx-auto border-2 w-3/6">Add Control</div>
       </div>
     </div>
   </div>

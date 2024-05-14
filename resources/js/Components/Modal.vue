@@ -50,6 +50,7 @@ export default {
       this.$emit("close");
       this.newAuthor = false;
       this.newTitle = false;
+      this.editable = false;
     },
     handleDelete(id) {
       this.editable = false;
@@ -90,7 +91,6 @@ export default {
     addStep(){
       postStep(this.id)
       .then(data => {
-        console.log(data, " putting on our mutable data")
         this.mutableSteps = this.mutableSteps.concat(data)
       })
     },
@@ -243,25 +243,27 @@ export default {
         </slot>
       </section>
       <footer class="p-[15px] flex border-t-2 flex-col justify-end">
-        <button
-          type="button"
-          class="bg-slate-200 border-2 rounded-md"
-          @click="enableEdit"
-          v-if="!editable"
-        >
-          Edit Job Hazard Analysis
-        </button>
-        <button
-          type="button"
-          class="bg-slate-200 border-2 rounded-md"
-          @click="() => disableEdit(id)"
-          v-if="editable"
-        >
-          Finish editing
-        </button>
-        <button type="button" class="bg-red-500 p-2" @click="() => handleDelete(id)">
-          Delete
-        </button>
+        <div class="flex flex-row w-5/6 mx-auto justify-between">
+          <button
+            type="button"
+            class="bg-slate-200 border-2 rounded-md"
+            @click="enableEdit"
+            v-if="!editable"
+          >
+            Edit Form
+          </button>
+          <button
+            type="button"
+            class="bg-slate-200 border-2 rounded-md"
+            @click="() => disableEdit(id)"
+            v-if="editable"
+          >
+            Finish editing
+          </button>
+          <button type="button" class="bg-red-500 p-2 rounded-md" @click="() => handleDelete(id)">
+            Delete
+          </button>
+        </div>
       </footer>
     </div>
   </div>

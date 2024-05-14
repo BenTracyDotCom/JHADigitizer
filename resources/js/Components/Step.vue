@@ -13,6 +13,20 @@ const deleteStep = async (id) => {
   return data;
 };
 
+const postHazard = async (id) => {
+  const toSend = {
+    step_id: id,
+    title: "New Hazard",
+  };
+
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_APP_URL}/api/hazards`,
+    toSend
+  );
+
+  return data;
+};
+
 export default {
   setup(props) {
     // onUnmounted(() => {
@@ -21,7 +35,7 @@ export default {
     // })
     const newTitle = ref(null);
     const setNewTitle = (e) => {
-      updateTitle(e.target.innerHTML, props.id)
+      updateTitle(e.target.innerHTML, props.id);
       newTitle.value = e.target.innerHTML.trim();
       stepEditable.value = false;
     };
@@ -49,26 +63,32 @@ export default {
       this.stepEditable = true;
     },
     handleDelete() {
-      deleteStep(this.id)
-      .then(() => (
-        this.$emit("updateModal")
-      ))
+      deleteStep(this.id).then(() => {
+        this.$emit("updateModal");
+        this.mutableHazards = [];
+      });
     },
     updateModal() {
       this.$emit("updateModal");
-    }
-    // handleChange(e) {
-    //   updateTitle(e.target.innerHTML, this.id)
-    //   .then(res => {
-    //     this.stepEditable = false;
-    //   })
-    // }
+      this.mutableHazards = [];
+    },
+    addHazard() {
+      postHazard(this.id).then((data) => {
+        this.mutableHazards = this.mutableHazards.concat(data);
+      });
+    },
   },
   data() {
     return {
       controls: this.hazards.controls,
+      mutableHazards: [],
       //stepEditable: false,
     };
+  },
+  computed: {
+    listedHazards() {
+      return this.hazards.concat(this.mutableHazards);
+    },
   },
 };
 </script>
@@ -77,11 +97,7 @@ export default {
     <div class="grid grid-cols-3">
       <div class="border-r-2">
         <div v-if="editable" class="w-full flex flex-row justify-between">
-          <img
-            src="/images/delete-button.png"
-            @click="handleDelete"
-            class="h-3"
-          />
+          <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
         <div v-if="num">Step {{ num + 1 }}</div>
@@ -91,13 +107,22 @@ export default {
           </div>
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
+      <div v-if="editable">
+        <div
+          @click="addHazard"
+          class="bg-yellow-300 p-1 rounded-xl text-center text-sm mx-auto border-2 w-3/6"
+        >
+          Add hazard
+        </div>
+      </div>
       </div>
       <div class="col-span-2 h-full content-fit">
-        <div v-for="(hazard, index) in hazards" class="">
+        <div v-for="(hazard, index) in listedHazards" class="">
           <Hazard
             v-bind="hazard"
             :key="index"
             :editable="editable"
+            :controls="[]"
             @updateModal="updateModal"
           />
         </div>

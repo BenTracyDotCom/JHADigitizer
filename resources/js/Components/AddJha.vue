@@ -48,7 +48,6 @@ export default {
       this.$emit("finishAdding")
       this.$emit("close")
       this.jha = null
-      this.$refs.form$.clear()
     }
   },
   data() {
