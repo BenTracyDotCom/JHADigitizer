@@ -65,6 +65,7 @@ export default {
       this.isModalVisible = true;
     },
     closeModal() {
+      console.log("tryna close")
       this.isModalVisible = false;
       fetchJhas();
     },

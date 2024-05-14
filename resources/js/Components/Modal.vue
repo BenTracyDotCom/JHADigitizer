@@ -62,7 +62,7 @@ export default {
     },
     disableEdit(id) {
       this.editable = false;
-      this.$emit("updateModal", id);
+      // this.$emit("updateModal", id);
     },
     editTitle() {
       this.titleEditable = true;

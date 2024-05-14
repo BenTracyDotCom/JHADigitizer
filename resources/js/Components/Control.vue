@@ -34,7 +34,7 @@ export default {
       this.controlEditable = true;
     },
     handleDelete() {
-      deleteControl(this.id)
+      deleteControl(this.control.id)
       .then(() => {
         this.$emit("updateModal")
       })
@@ -47,6 +47,7 @@ export default {
     id: Number,
     title: { required: true, type: String },
     editable: { type: Boolean, default: false },
+    control: Object
   },
 };
 </script>

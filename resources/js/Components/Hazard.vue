@@ -53,8 +53,8 @@ export default {
     },
     handleDelete() {
       deleteHazard(this.id).then(() => {
-        this.$emit("updateModal");
         this.mutableControls = [];
+        this.$emit("updateModal");
       });
     },
     updateModal() {
@@ -104,7 +104,8 @@ export default {
         <div v-for="(control, index) in listedControls" class="">
           <Control
             v-bind="control"
-            :key="control.id"
+            :control="control"
+            :key="index"
             :editable="editable"
             @updateModal="updateModal"
           />

@@ -29,14 +29,10 @@ const postHazard = async (id) => {
 
 export default {
   setup(props) {
-    // onUnmounted(() => {
-    //   newTitle.value = null
-    //   console.log('beforeUnmount')
-    // })
     const newTitle = ref(null);
-    const setNewTitle = (e) => {
-      updateTitle(e.target.innerHTML, props.id);
-      newTitle.value = e.target.innerHTML.trim();
+    const setNewTitle = (text) => {
+      updateTitle(text, props.id);
+      newTitle.value = text;
       stepEditable.value = false;
     };
     const stepEditable = ref(false);
@@ -59,6 +55,9 @@ export default {
     editable: { type: Boolean, default: false },
   },
   methods: {
+    updateTitle() {
+      this.setNewTitle(this.$refs.form$.data.title)
+    },
     handleEdit() {
       this.stepEditable = true;
     },
@@ -82,7 +81,6 @@ export default {
     return {
       controls: this.hazards.controls,
       mutableHazards: [],
-      //stepEditable: false,
     };
   },
   computed: {
@@ -104,9 +102,16 @@ export default {
         </div>
         <div v-if="num || num === 0" class="font-bold text-sm">Step {{ num + 1 }}</div>
         <div v-if="stepEditable">
-          <div contenteditable class="text-blue-500 border-2 rounded-full pl-2" @keydown.enter="setNewTitle">
+        <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle"> 
+        <TextElement
+        name="title"
+        :placeholder="`${ newTitle ? newTitle : title}`"
+        />
+        <ButtonElement name="submit" submits class="invisible"/>
+        </Vueform>
+          <!-- <div contenteditable class="text-blue-500 border-2 rounded-full pl-2" @keydown.enter="setNewTitle">
             {{ newTitle ? newTitle : title }}
-          </div>
+          </div> -->
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       <div v-if="editable">
@@ -122,7 +127,6 @@ export default {
         <div v-for="(hazard, index) in listedHazards" class="">
           <Hazard
             v-bind="hazard"
-            :controls=[]
             :key="index"
             :editable="editable"
             @updateModal="updateModal"
