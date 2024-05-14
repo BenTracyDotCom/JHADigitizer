@@ -19,7 +19,7 @@ async function fetchJhas(id) {
   // console.log(data, ' data ', id, ' id');
   // console.log(data.find(jha => jha.id === id))
   jha.value = data.find(jha => jha.id === id)
-  return data.find(jha => jha.id === id);
+  // return data.find(jha => jha.id === id);
 }
 
 async function deleteJha(id) {
@@ -78,8 +78,8 @@ export default {
     handleDelete(id) {
       deleteJha(id);
     },
-    refresh() {
-      fetchJhas()
+    refresh(id) {
+      fetchJhas(id)
     },
     updateJha(e) {
       modifyJha(e)
@@ -92,14 +92,7 @@ export default {
     //   })
     // },
     updateModal(id) {
-      // Object.keys(data).forEach(key => {
-      //   this.jha[key] = data[key]
-      // })
       fetchJhas(id)
-      // .then(data => {
-      //   console.log(data)
-      //   this.jha = data
-      // })
     }
   },
   setup() {
@@ -121,7 +114,7 @@ export default {
       @deleteJha="handleDelete"
       @refreshJhas="refresh"
       @finishEditing="updateJha"
-      @updateModal="updateModal"
+      @updateModal="refresh"
     >
       <!-- <template v-slot:body>
       <JhaTile v-bind="jha"/>

@@ -31,6 +31,7 @@ export default {
     close() {
       this.$emit("close");
       this.newAuthor = false;
+      this.newTitle = false;
     },
     handleDelete(id) {
       this.editable = false;
@@ -43,6 +44,7 @@ export default {
     disableEdit(id) {
       this.editable = false;
       this.listedSteps = this.steps;
+      this.$emit("updateModal", id);
     },
     editTitle() {
       this.titleEditable = true;
@@ -68,24 +70,11 @@ export default {
         this.authorEditable = false;
       });
     },
-    removeStep(id) {
-      console.log(this.id, 'jha id')
-      console.log(id, 'step id')
-      deleteStep(id)
-      .then(this.$emit("updateModal", this.id))
-      console.log('deleted')
-      // .then((res) => {
-      //   const toUpdate = {
-      //     steps: res.data,
-      //   };
-      //   this.$emit("updateModal", id);
-      // });
-    },
-      editStep(id) {
-        this.$emit("updateModal", id);
-      }
-      //this.$emit('deleteStep', id)
-    },
+    updateModal(){
+      this.$emit("updateModal", this.id);
+    }
+    //this.$emit('deleteStep', id)
+  },
   props: {
     id: Number,
     title: { type: String, default: "Title" },
@@ -212,8 +201,7 @@ export default {
                 :num="index"
                 :editable="editable"
                 v-bind="step"
-                @deleteStep="removeStep"
-                @editStep="editStep"
+                @updateModal="updateModal"
               />
             </div>
           </div>
