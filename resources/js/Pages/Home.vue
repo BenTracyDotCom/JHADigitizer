@@ -60,6 +60,7 @@ export default {
     closeModal() {
       this.isModalVisible = false;
       fetchJhas()
+      this.jha = this.jhas[0]
     },
     showJha() {
       this.isJhaVisible = true;
@@ -83,11 +84,12 @@ export default {
     //     console.log(data)
     //   })
     // },
-    updateModal(data) {
-      console.log(data)
-      Object.keys(data).forEach(key => {
-        this.jha[key] = data[key]
-      })
+    updateModal(id) {
+      // Object.keys(data).forEach(key => {
+      //   this.jha[key] = data[key]
+      // })
+      fetchJhas(id)
+      .then(data => this.jha = data)
     }
   },
   setup() {

@@ -1,15 +1,39 @@
 <script>
+import { onUnmounted, ref } from 'vue';
 import Hazard from "../Components/Hazard.vue";
 
+
 const updateTitle = async (title, id) => {
-  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/steps/${id}`, {
-    title,
-  });
+  console.log(title, 'what we updating with')
+  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/steps/${id}`, { title });
   return data;
 };
 const deleteStep = async (id) => {};
 
 export default {
+  setup(props){
+    onUnmounted(() => {
+      newTitle.value = null
+      console.log('beforeUnmount')
+    })
+    const newTitle = ref(null)
+    const setNewTitle = (e) => {
+      console.log(e.target.innerHTML, ' title')
+      updateTitle(e.target.innerHTML, props.id)
+      .then((res) => {
+        console.log(res)
+      })
+      newTitle.value = e.target.innerHTML
+      stepEditable.value = false
+    }
+    const stepEditable = ref(false)
+    const handleEdit = () => {
+      stepEditable.value = false
+      this.$emit('editStep', props.id)
+    }
+
+    return { newTitle, setNewTitle, stepEditable, handleEdit }
+  },
   name: "Step",
   components: {
     Hazard,
@@ -28,19 +52,17 @@ export default {
     handleDelete(id) {
       this.$emit("deleteStep", this.id);
     },
-    handleChange(e) {
-      updateTitle(e.target.innerHTML, this.id)
-      .then(res => {
-        this.newTitle = res.data.title
-        this.stepEditable = false;
-      })
-    }
+    // handleChange(e) {
+    //   updateTitle(e.target.innerHTML, this.id)
+    //   .then(res => {
+    //     this.stepEditable = false;
+    //   })
+    // }
   },
   data() {
     return {
       controls: this.hazards.controls,
-      stepEditable: false,
-      newTitle: null
+      //stepEditable: false,
     };
   },
 };
@@ -59,7 +81,7 @@ export default {
         </div>
         <div>Step {{ num + 1 }}</div>
         <div v-if="stepEditable">
-          <div contenteditable class="text-blue-500 " ref="refTitle" @keydown.enter="handleChange">{{ title }}</div>
+          <div contenteditable class="text-blue-500 " ref="refTitle" @keydown.enter="setNewTitle">{{ newTitle ? newTitle : title }}</div>
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>

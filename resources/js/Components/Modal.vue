@@ -4,7 +4,9 @@ import axios from "axios";
 import Step from "../Components/Step.vue";
 
 const updateTitle = async (title, id) => {
-  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, { title });
+  const data = await axios.put(`${import.meta.env.VITE_APP_URL}/api/jhas/${id}`, {
+    title,
+  });
   return data;
 };
 
@@ -16,9 +18,9 @@ const updateAuthor = async (author, id) => {
 };
 
 const deleteStep = async (id) => {
-  const data = await axios.delete(`${import.meta.env.VITE_APP_URL}/api/steps/${id}`)
+  const data = await axios.delete(`${import.meta.env.VITE_APP_URL}/api/steps/${id}`);
   return data;
-}
+};
 
 export default {
   name: "Modal",
@@ -66,16 +68,18 @@ export default {
       });
     },
     removeStep(id) {
-      deleteStep(id)
-      .then(res => {
+      deleteStep(id).then((res) => {
         const toUpdate = {
-          steps: res.data
-        }
-        this.$emit('updateModal', toUpdate)
-      })
+          steps: res.data,
+        };
+        this.$emit("updateModal", id);
+      });
+    },
+      editStep(id) {
+        this.$emit("updateModal", id);
+      }
       //this.$emit('deleteStep', id)
-    }
-  },
+    },
   props: {
     id: Number,
     title: { type: String, default: "Title" },
@@ -92,7 +96,7 @@ export default {
       authorEditable: false,
       newTitle: false,
       newAuthor: false,
-      listedSteps: this.steps
+      listedSteps: this.steps,
     };
   },
 };
@@ -195,7 +199,14 @@ export default {
           </div>
           <div v-for="(listedStep, index) in steps">
             <div class="border-b-2 border-x-2">
-              <Step :key="index" :num="index" v-bind="listedStep" :editable="editable" @deleteStep="removeStep"/>
+              <Step
+                :key="index"
+                :num="index"
+                v-bind="listedStep"
+                :editable="editable"
+                @deleteStep="removeStep"
+                @editStep="editStep"
+              />
             </div>
           </div>
         </slot>
