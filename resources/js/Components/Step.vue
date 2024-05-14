@@ -122,7 +122,7 @@ export default {
             v-bind="hazard"
             :key="index"
             :editable="editable"
-            :controls="[]"
+
             @updateModal="updateModal"
           />
         </div>
