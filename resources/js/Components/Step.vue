@@ -100,7 +100,7 @@ export default {
           <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
-        <div v-if="num">Step {{ num + 1 }}</div>
+        <div v-if="num || num === 0" class="font-bold text-sm">Step {{ num + 1 }}</div>
         <div v-if="stepEditable">
           <div contenteditable class="text-blue-500" @keydown.enter="setNewTitle">
             {{ newTitle ? newTitle : title }}
@@ -122,7 +122,6 @@ export default {
             v-bind="hazard"
             :key="index"
             :editable="editable"
-
             @updateModal="updateModal"
           />
         </div>
