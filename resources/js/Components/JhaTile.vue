@@ -38,22 +38,17 @@ export default {
       this.$emit("deleteJha", this.id);
     },
   },
-  setup(props) {
-    // onMounted(async () => {
-    //   await fetchSteps(props.id)
-    // })
-  },
 };
 </script>
 
 <template>
-  <div class="bg-white border-2 text-center m-2 w-5/6 mx-auto rounded-md p-2">
+  <div class="border-2 text-center m-2 w-5/6 mx-auto rounded-md p-2 hover:bg-blue-100">
     <div class="flex flex-row justify-between">
       <div class="text-2xl font-bold">{{ title }}</div>
-      <div class="font-bold">{{ author }}</div>
+      <div class="font-bold">Created by {{ author }}</div>
     </div>
     <div class="flex flex-row justify-between">
-      <div class="">{{ new Date(updated_at).toLocaleDateString() }}</div>
+      <div class="self-end">Updated {{ new Date(updated_at).toLocaleDateString() }}</div>
     </div>
   </div>
 </template>

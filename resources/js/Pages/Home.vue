@@ -10,11 +10,15 @@ import JhaTile from "../Components/JhaTile.vue";
 import { ref, onMounted } from "vue";
 
 const jhas = ref([]);
+const jha = ref(null);
 
 //TODO: handle errors/failures
 async function fetchJhas(id) {
   const { data } = await axios.get(`${import.meta.env.VITE_APP_URL}/api/jhas`);
   jhas.value = data;
+  // console.log(data, ' data ', id, ' id');
+  // console.log(data.find(jha => jha.id === id))
+  jha.value = data.find(jha => jha.id === id)
   return data.find(jha => jha.id === id);
 }
 
@@ -44,12 +48,16 @@ export default {
     Footer,
     JhaTile,
   },
+  setup(props) {
+
+    
+  },
   data() {
     return {
       isModalVisible: false,
       isJhaVisible: false,
       jhas: jhas,
-      jha: null,
+      jha: jha,
     };
   },
   methods: {
@@ -60,7 +68,6 @@ export default {
     closeModal() {
       this.isModalVisible = false;
       fetchJhas()
-      this.jha = this.jhas[0]
     },
     showJha() {
       this.isJhaVisible = true;
@@ -89,7 +96,10 @@ export default {
       //   this.jha[key] = data[key]
       // })
       fetchJhas(id)
-      .then(data => this.jha = data)
+      // .then(data => {
+      //   console.log(data)
+      //   this.jha = data
+      // })
     }
   },
   setup() {
@@ -120,7 +130,7 @@ export default {
     <div :key="jhas">
       <div v-for="(jha, index) in jhas">
         <JhaTile
-          :key="index"
+          :key="jha.id"
           v-bind="jha"
           @click="
             () => {

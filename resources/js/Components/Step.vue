@@ -85,7 +85,7 @@ export default {
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>
-      <div class="col-span-2 h-full border-green-500 border-2 content-fit">
+      <div class="col-span-2 h-full content-fit">
         <div v-for="(hazard, index) in hazards" class="">
           <Hazard v-bind="hazard" :key="index" />
         </div>

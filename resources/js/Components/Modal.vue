@@ -30,6 +30,7 @@ export default {
   methods: {
     close() {
       this.$emit("close");
+      this.newAuthor = false;
     },
     handleDelete(id) {
       this.editable = false;
@@ -68,12 +69,17 @@ export default {
       });
     },
     removeStep(id) {
-      deleteStep(id).then((res) => {
-        const toUpdate = {
-          steps: res.data,
-        };
-        this.$emit("updateModal", id);
-      });
+      console.log(this.id, 'jha id')
+      console.log(id, 'step id')
+      deleteStep(id)
+      .then(this.$emit("updateModal", this.id))
+      console.log('deleted')
+      // .then((res) => {
+      //   const toUpdate = {
+      //     steps: res.data,
+      //   };
+      //   this.$emit("updateModal", id);
+      // });
     },
       editStep(id) {
         this.$emit("updateModal", id);
@@ -119,7 +125,7 @@ export default {
             <div v-if="editable && !titleEditable">
               <img
                 src="/images/edit.png"
-                class="size-4 cursor-pointer"
+                class="size-3 cursor-pointer"
                 @click="editTitle"
               />
             </div>
@@ -144,40 +150,42 @@ export default {
               </div>
             </div>
           </div>
-          <div class="text-md" v-if="!authorEditable">
-            Created by {{ this.newAuthor ? this.newAuthor : author }}
-          </div>
-          <div v-else>
-            <Vueform ref="form$">
-              <TextElement name="author" placeholder="Author" rules="required" />
-            </Vueform>
-          </div>
-          <div>
-            <div v-if="editable && !authorEditable">
-              <img
-                src="/images/edit.png"
-                class="size-4 cursor-pointer"
-                @click="editAuthor"
-              />
+          <div class="flex flex-row">
+            <div class="text-md" v-if="!authorEditable">
+              Created by {{ this.newAuthor ? this.newAuthor : author }}
             </div>
-            <div
-              id="accept-close-buttons"
-              class="flex flex-col justify-between pl-1"
-              v-if="authorEditable"
-            >
-              <div>
+            <div v-else>
+              <Vueform ref="form$">
+                <TextElement name="author" placeholder="Author" rules="required" />
+              </Vueform>
+            </div>
+            <div>
+              <div v-if="editable && !authorEditable">
                 <img
-                  src="/images/accept.png"
-                  class="size-4 cursor-pointer"
-                  @click="() => submitAuthor(id)"
+                  src="/images/edit.png"
+                  class="size-3 ml-1 cursor-pointer"
+                  @click="editAuthor"
                 />
               </div>
-              <div>
-                <img
-                  src="/images/delete-button.png"
-                  class="size-4 cursor-pointer"
-                  @click="disableAuthor"
-                />
+              <div
+                id="accept-close-buttons"
+                class="flex flex-col justify-between pl-1"
+                v-if="authorEditable"
+              >
+                <div>
+                  <img
+                    src="/images/accept.png"
+                    class="size-4 cursor-pointer"
+                    @click="() => submitAuthor(id)"
+                  />
+                </div>
+                <div>
+                  <img
+                    src="/images/delete-button.png"
+                    class="size-4 cursor-pointer"
+                    @click="disableAuthor"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -197,13 +205,13 @@ export default {
             <div>Hazards</div>
             <div>Controls</div>
           </div>
-          <div v-for="(listedStep, index) in steps">
+          <div v-for="(step, index) in steps">
             <div class="border-b-2 border-x-2">
               <Step
-                :key="index"
+                :key="step.id"
                 :num="index"
-                v-bind="listedStep"
                 :editable="editable"
+                v-bind="step"
                 @deleteStep="removeStep"
                 @editStep="editStep"
               />
