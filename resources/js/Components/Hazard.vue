@@ -31,9 +31,9 @@ const postControl = async (id) => {
 export default {
   setup(props) {
     const newTitle = ref(null);
-    const setNewTitle = (e) => {
-      updateTitle(e.target.innerHTML, props.id);
-      newTitle.value = e.target.innerHTML.trim();
+    const setNewTitle = (text) => {
+      updateTitle(text, props.id);
+      newTitle.value = text;
       hazardEditable.value = false;
     };
     const hazardEditable = ref(false);
@@ -48,6 +48,9 @@ export default {
     Control,
   },
   methods: {
+    updateTitle() {
+      this.setNewTitle(this.$refs.form$.data.title)
+    },
     handleEdit() {
       this.hazardEditable = true;
     },
@@ -56,6 +59,9 @@ export default {
         this.mutableControls = [];
         this.$emit("updateModal");
       });
+    },
+    handleCancel() {
+      this.hazardEditable = false;
     },
     updateModal() {
       this.$emit("updateModal");
@@ -69,7 +75,7 @@ export default {
   },
   props: {
     id: Number,
-    title: { required: true, type: String },
+    title: String,
     controls: { type: Array },
     editable: { type: Boolean, default: false },
   },
@@ -80,7 +86,7 @@ export default {
   },
   computed: {
     listedControls() {
-      return this.controls.concat(this.mutableControls);
+      return this.mutableControls.concat(this.controls);
     },
   },
 };
@@ -94,9 +100,13 @@ export default {
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
         <div v-if="hazardEditable">
-          <div contenteditable class="text-blue-500" @keydown.enter="setNewTitle">
-            {{ newTitle ? newTitle : title }}
-          </div>
+          <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle"> 
+        <TextElement
+        name="title"
+        :placeholder="`${ newTitle ? newTitle : title}`"
+        @keydown.esc="handleCancel"/>
+        <ButtonElement name="submit" submits class="invisible"/>
+        </Vueform>
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>

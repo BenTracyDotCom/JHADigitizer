@@ -50,7 +50,7 @@ export default {
   props: {
     num: Number,
     id: Number,
-    title: { required: true, type: String },
+    title: String,
     hazards: { type: Array, default: [] },
     editable: { type: Boolean, default: false },
   },
@@ -60,6 +60,9 @@ export default {
     },
     handleEdit() {
       this.stepEditable = true;
+    },
+    handleCancel() {
+      this.stepEditable = false;
     },
     handleDelete() {
       deleteStep(this.id).then(() => {
@@ -106,12 +109,9 @@ export default {
         <TextElement
         name="title"
         :placeholder="`${ newTitle ? newTitle : title}`"
-        />
+        @keydown.esc="handleCancel"/>
         <ButtonElement name="submit" submits class="invisible"/>
         </Vueform>
-          <!-- <div contenteditable class="text-blue-500 border-2 rounded-full pl-2" @keydown.enter="setNewTitle">
-            {{ newTitle ? newTitle : title }}
-          </div> -->
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       <div v-if="editable">

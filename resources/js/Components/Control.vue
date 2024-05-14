@@ -17,9 +17,9 @@ const deleteControl = async (id) => {
 export default {
   setup(props) {
     const newTitle = ref(null);
-    const setNewTitle = (e) => {
-      updateTitle(e.target.innerHTML, props.id)
-      newTitle.value = e.target.innerHTML.trim();
+    const setNewTitle = (text) => {
+      updateTitle(text, props.id);
+      newTitle.value = text;
       controlEditable.value = false;
     };
     const controlEditable = ref(false);
@@ -30,8 +30,14 @@ export default {
   },
   name: "Control",
   methods: {
+    updateTitle() {
+      this.setNewTitle(this.$refs.form$.data.title);
+    },
     handleEdit() {
       this.controlEditable = true;
+    },
+    handleCancel() {
+      this.controlEditable = false;
     },
     handleDelete() {
       deleteControl(this.control.id)
@@ -45,7 +51,7 @@ export default {
   },
   props: {
     id: Number,
-    title: { required: true, type: String },
+    title: String,
     editable: { type: Boolean, default: false },
     control: Object
   },
@@ -64,13 +70,14 @@ export default {
           <img src="/images/edit.png" @click="handleEdit" class="h-3" />
         </div>
         <div v-if="controlEditable">
-          <div
-            contenteditable
-            class="text-blue-500"
-            @keydown.enter="setNewTitle"
-          >
-            {{ newTitle ? newTitle : title }}
-          </div>
+          <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle">
+            <TextElement
+              name="title"
+              :placeholder="`${newTitle ? newTitle : title}`"
+              @keydown.esc="handleCancel"
+            />
+            <ButtonElement name="submit" submits class="invisible" />
+          </Vueform>
         </div>
         <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>
