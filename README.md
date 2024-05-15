@@ -53,7 +53,7 @@ If the database seeded correctly, the home page should look like this:
 
 
 ## Viewing, Updating and Deleting JHA Forms
-When you click on any of the modal tiles, a modal appears with more detailed information:
+When you click on any of the JHA tiles, a pop-up appears with more detailed information:
 
 ![viewJha](https://i.imgur.com/zNWM7My.png)
 
