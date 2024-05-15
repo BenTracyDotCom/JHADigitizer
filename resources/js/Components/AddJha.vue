@@ -26,7 +26,8 @@ export default {
   },
   methods: {
     close() {
-      this.steps = []
+      this.steps = [];
+      this.jha = null;
       this.$emit("close");
     },
     sendJha() {
@@ -73,14 +74,13 @@ export default {
     <div
       class="shadow-lg overflow-y-auto flex flex-col bg-white rounded-lg w-5/6 h-fit p-2"
     >
-      <!-- <input v-model="title" placeholder="Add Title" /> -->
+  <div class="text-red-500 text-3xl h-min w-full flex flex-row justify-end" >
+  <div @click="close" class="cursor-pointer -mb-6 z-1000">x</div>
+  </div>
       <div class="w-full flex flex-row justify-between px-2">
         <div class="font-bold text-2xl" v-if="!jha">Job</div>
       </div>
       <Vueform :endpoint="false" ref="form$" @submit="sendJha" v-if="!jha">
-        <!-- <StaticElement name="head">
-          <div>Job</div>
-        </StaticElement> -->
         <TextElement name="title" rules="required" class="px-2" />
         <GroupElement
           name="author"
@@ -110,7 +110,7 @@ export default {
           class="px-2"
         /> -->
         <ButtonElement v-if="!jha" class="mx-auto mb-2" name="submit" submits>
-          Create JHA Form
+          Create Form
         </ButtonElement>
       </Vueform>
       <div v-else class="border-b-2 border-black pl-2">
@@ -121,7 +121,7 @@ export default {
               Created by {{ this.jha.author }} on
               {{ new Date(this.jha.created_at).toLocaleDateString() }}
           </div>
-        </div><div class="text-red-500 text-3xl h-min -mt-2" @click="close">x</div>
+        </div>
           </div>
           
       </div>

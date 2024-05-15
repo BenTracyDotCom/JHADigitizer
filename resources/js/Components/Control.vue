@@ -58,7 +58,7 @@ export default {
 </script>
 <template>
   <div>
-    <div class="border-b-2 border-dashed">
+    <div class="">
       <div class="border-r-2">
         <div class="flex flex-row-reverse justify-between pr-1 w-full">
           <div

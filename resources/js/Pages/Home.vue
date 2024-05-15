@@ -65,7 +65,7 @@ export default {
       this.isModalVisible = true;
     },
     closeModal() {
-      console.log("tryna close")
+      console.log("tryna close");
       this.isModalVisible = false;
       fetchJhas();
     },
@@ -97,13 +97,9 @@ export default {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full flex flex-col h-screen">
     <Header />
-    <AddJha 
-      v-show="isJhaVisible"
-      @close="closeJha"
-      @finishAdding="refresh"
-    ></AddJha>
+    <AddJha v-show="isJhaVisible" @close="closeJha" @finishAdding="refresh"></AddJha>
     <Modal
       v-show="isModalVisible"
       v-bind="jha"
@@ -117,27 +113,28 @@ export default {
       <JhaTile v-bind="jha"/>
     </template> -->
     </Modal>
-    <div :key="jhas">
-      <div v-for="(jha, index) in jhas">
-        <JhaTile
-          :key="jha.id"
-          v-bind="jha"
-          @click="
-            () => {
-              showModal(jha);
-            }
-          "
-        />
-      </div>
-      <div class="w-full flex flex-around">
-        <button
-          type="button"
-          class="border-2 bg-green-100 rounded-lg p-2 mx-auto"
-          @click="showJha"
-        >
-          Add a Job Hazard Analysis
-        </button>
+    <div class="flex-1 overflow-y-auto">
+      <div :key="jhas">
+        <div v-for="(jha, index) in jhas">
+          <JhaTile
+            :key="jha.id"
+            v-bind="jha"
+            @click="
+              () => {
+                showModal(jha);
+              }
+            "
+          />
+        </div>
+        <div class="w-full flex flex-around"></div>
       </div>
     </div>
+    <button
+      type="button"
+      class="border-2 bg-green-100 rounded-lg p-2 mb-3 mx-auto"
+      @click="showJha"
+    >
+      Add a Job Hazard Analysis
+    </button>
   </div>
 </template>

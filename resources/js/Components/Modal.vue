@@ -180,7 +180,7 @@ export default {
               <ButtonElement class="invisible" name="submit" submits>
               </ButtonElement>
               </Vueform>
-          Create JHA Form
+          Create Form
             </div>
             <div>
               <div v-if="editable && !authorEditable">
