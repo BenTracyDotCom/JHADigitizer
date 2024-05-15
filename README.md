@@ -4,7 +4,7 @@
 Digital tool to search, create and manage Job Hazard Analysis documents\
 **This guide uses Laravel Sail to run the demo app a development environment ONLY.**
 
-##### This giude assumes you have PHP and the Docker Desktop GUI installed
+##### This giude assumes you have PHP, Composer, and the Docker Desktop GUI installed
 
 ## How to Run:
 ### Install dependencies:
