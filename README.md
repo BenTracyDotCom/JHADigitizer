@@ -7,12 +7,15 @@ Digital tool to search, create and manage Job Hazard Analysis documents\
 ##### This giude assumes you have PHP, Composer, and the Docker Desktop GUI installed
 
 ## How to Run:
-### Install dependencies:
+### Install dependencies and generate an application key:
 From the root directory:
 ```shell 
 composer install
 npm install
+php artisan key:generate
 ```
+
+
 ### Copy `.env.example` into a new file, `.env`
 ```shell
 cp .env.example .env
