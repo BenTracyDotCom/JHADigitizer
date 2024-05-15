@@ -129,7 +129,7 @@ export default {
         </div>
       </div>
       <div class="col-span-2 h-full content-fit">
-        <div v-for="(hazard, index) in listedHazards" class="">
+        <div v-for="(hazard, index) in listedHazards">
           <Hazard
             v-bind="hazard"
             :key="index"

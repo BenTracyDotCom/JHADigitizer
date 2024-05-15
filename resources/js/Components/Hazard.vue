@@ -39,7 +39,6 @@ export default {
     const hazardEditable = ref(false);
     const handleEdit = () => {
       hazardEditable.value = false;
-      //this.$emit("editHazard", props.id);
     };
     return { newTitle, setNewTitle, hazardEditable, handleEdit };
   },
@@ -119,7 +118,7 @@ export default {
         </div>
       </div>
       <div class="h-full content-fit">
-        <div v-for="(control, index) in listedControls" class="">
+        <div v-for="(control, index) in listedControls">
           <Control
             v-bind="control"
             :control="control"

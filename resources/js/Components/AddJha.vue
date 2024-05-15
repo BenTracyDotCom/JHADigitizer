@@ -57,7 +57,6 @@ export default {
   data() {
     return {
       jha: jha,
-      // This is redundant if we're using the ref above
       steps: [],
     };
   },
@@ -103,12 +102,6 @@ export default {
             :columns="6"
           />
         </GroupElement>
-        <!-- <TextareaElement
-          label="Description"
-          name="description"
-          placeholder="Optional"
-          class="px-2"
-        /> -->
         <ButtonElement v-if="!jha" class="mx-auto mb-2" name="submit" submits>
           Create Form
         </ButtonElement>
@@ -117,7 +110,7 @@ export default {
         <div class="flex flex-row justify-between">
           <div>
             <div class="text-2xl font-bold">{{ this.jha.title }}</div>
-            <div class="">
+            <div>
               Created by {{ this.jha.author }} on
               {{ new Date(this.jha.created_at).toLocaleDateString() }}
           </div>
