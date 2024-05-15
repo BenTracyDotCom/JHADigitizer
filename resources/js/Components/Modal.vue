@@ -137,7 +137,7 @@ export default {
             </div>
             <div v-else>
               <Vueform ref="form$" :endpoint="false" @submit="() => submitTitle(id)">
-                <TextElement name="title" placeholder="Title" rules="required" />
+                <TextElement name="title" placeholder="Title" @keydown.esc="disableTitle" rules="required" />
               <ButtonElement class="invisible" name="submit" submits>
               </ButtonElement>
               </Vueform>
@@ -164,7 +164,7 @@ export default {
               <div>
                 <img
                   src="/images/delete-button.png"
-                  class="size-4 cursor-pointer"
+                  class="size-4 cursor-pointer -mt-14"
                   @click="disableTitle"
                 />
               </div>
@@ -176,7 +176,7 @@ export default {
             </div>
             <div v-else>
               <Vueform ref="form$" :endpoint="false" @submit="() => submitAuthor(id)">
-                <TextElement name="author" placeholder="Author" rules="required" />
+                <TextElement name="author" placeholder="Author" rules="required" @keydown.esc="disableAuthor"/>
               <ButtonElement class="invisible" name="submit" submits>
               </ButtonElement>
               </Vueform>
@@ -211,6 +211,32 @@ export default {
                 </div>
               </div>
             </div>
+          </div>
+          <div v-if="editable" id="instructions" class="flex flex-row sm:flex-wrap w-full justify-between text-sm pt-3 -mb-2">
+          <div class="flex flex-row space-x-1">
+            <img src="/images/edit.png" class="h-4"/>
+            <div>Edit Field</div>
+          </div>
+          <div class="flex flex-row space-x-1">
+            <img src="/images/delete-button.png" class="h-4"/>
+            <div>Delete Field</div>
+          </div>
+          <div class="space-x-1">
+            <span class="bg-slate-200 w-fit">[enter]</span>
+            <span>Submit Data</span>
+          </div>
+          <div class="space-x-1">
+            <span class="bg-slate-200 w-fit">[esc]</span>
+            <span>Cancel Submission</span>
+          </div>
+          <div class="flex flex-row space-x-1">
+            <img src="/images/icons8-circle-50.png" class="h-4"/>
+            <div>Add Hazard</div>
+          </div>
+          <div class="flex flex-row space-x-1">
+            <img src="/images/icons8-filled-circle-50.png" class="h-4"/>
+            <div>Add Control</div>
+          </div>
           </div>
         </slot>
         <button

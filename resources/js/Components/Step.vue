@@ -16,7 +16,7 @@ const deleteStep = async (id) => {
 const postHazard = async (id) => {
   const toSend = {
     step_id: id,
-    title: "Edit me",
+    title: "New Hazard",
   };
 
   const { data } = await axios.post(
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     updateTitle() {
-      this.setNewTitle(this.$refs.form$.data.title)
+      this.setNewTitle(this.$refs.form$.data.title);
     },
     handleEdit() {
       this.stepEditable = true;
@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     listedHazards() {
-      if(this.hazards){
+      if (this.hazards) {
         return this.hazards.concat(this.mutableHazards);
       }
     },
@@ -99,29 +99,34 @@ export default {
   <div>
     <div class="grid grid-cols-3">
       <div class="border-r-2">
-        <div v-if="editable" class="w-full flex flex-row justify-between cursor-pointer">
-          <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />
-          <img src="/images/edit.png" @click="handleEdit" class="h-3" />
+        <div class="flex flex-row-reverse justify-between pr-2">
+          <div>
+            <div v-if="editable" class="flex flex-col h-full space-y-2 py-1 justify-between cursor-pointer" id="buttonContainer">
+              <img src="/images/edit.png" @click="handleEdit" class="h-3 w-3" />
+              <img src="/images/delete-button.png" @click="handleDelete" class="h-3 w-3" />
+              <div
+                @click="addHazard"
+                class="bg-amber-400 p-1 rounded-full h-3 w-3"
+              ></div>
+            </div>
+          </div>
+          <div>
+            <div v-if="num || num === 0" class="font-bold text-sm">Step {{ num + 1 }}</div>
+            <div v-if="stepEditable">
+              <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle">
+                <TextElement
+                  name="title"
+                  :placeholder="`${newTitle ? newTitle : title}`"
+                  @keydown.esc="handleCancel"
+                />
+                <ButtonElement name="submit" submits class="invisible" />
+              </Vueform>
+            </div>
+            <div v-else>{{ newTitle ? newTitle : title }}</div>
+          </div>
         </div>
-        <div v-if="num || num === 0" class="font-bold text-sm">Step {{ num + 1 }}</div>
-        <div v-if="stepEditable">
-        <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle"> 
-        <TextElement
-        name="title"
-        :placeholder="`${ newTitle ? newTitle : title}`"
-        @keydown.esc="handleCancel"/>
-        <ButtonElement name="submit" submits class="invisible"/>
-        </Vueform>
+        <div v-if="editable">
         </div>
-        <div v-else>{{ newTitle ? newTitle : title }}</div>
-      <div v-if="editable">
-        <div
-          @click="addHazard"
-          class="bg-yellow-300 p-1 rounded-xl text-center text-sm mx-auto border-2 w-3/6"
-        >
-          Add hazard
-        </div>
-      </div>
       </div>
       <div class="col-span-2 h-full content-fit">
         <div v-for="(hazard, index) in listedHazards" class="">

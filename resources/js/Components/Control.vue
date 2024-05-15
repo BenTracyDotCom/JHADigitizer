@@ -40,46 +40,47 @@ export default {
       this.controlEditable = false;
     },
     handleDelete() {
-      deleteControl(this.control.id)
-      .then(() => {
-        this.$emit("updateModal")
-      })
+      deleteControl(this.control.id).then(() => {
+        this.$emit("updateModal");
+      });
     },
     updateModal() {
       this.$emit("updateModal");
-    }
+    },
   },
   props: {
     id: Number,
     title: String,
     editable: { type: Boolean, default: false },
-    control: Object
+    control: Object,
   },
 };
 </script>
 <template>
   <div>
-    <div class="">
+    <div class="border-b-2 border-dashed">
       <div class="border-r-2">
-        <div v-if="editable" class="w-full flex flex-row justify-between">
-          <img
-            src="/images/delete-button.png"
-            @click="handleDelete"
-            class="h-3"
-          />
-          <img src="/images/edit.png" @click="handleEdit" class="h-3" />
+        <div class="flex flex-row-reverse justify-between pr-1 w-full">
+          <div
+            v-if="editable"
+            class="flex flex-col h-full space-y-2 py-1 justify-between cursor-pointer"
+            id="buttonContainer"
+          >
+            <img src="/images/edit.png" @click="handleEdit" class="h-3 w-3" />
+            <img src="/images/delete-button.png" @click="handleDelete" class="h-3 w-3" />
+          </div>
+          <div v-if="controlEditable">
+            <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle">
+              <TextElement
+                name="title"
+                :placeholder="`${newTitle ? newTitle : title}`"
+                @keydown.esc="handleCancel"
+              />
+              <ButtonElement name="submit" submits class="invisible" />
+            </Vueform>
+          </div>
+          <div v-else>{{ newTitle ? newTitle : title }}</div>
         </div>
-        <div v-if="controlEditable">
-          <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle">
-            <TextElement
-              name="title"
-              :placeholder="`${newTitle ? newTitle : title}`"
-              @keydown.esc="handleCancel"
-            />
-            <ButtonElement name="submit" submits class="invisible" />
-          </Vueform>
-        </div>
-        <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>
     </div>
   </div>

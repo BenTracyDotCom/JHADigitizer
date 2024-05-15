@@ -17,7 +17,7 @@ const deleteHazard = async (id) => {
 const postControl = async (id) => {
   const toSend = {
     hazard_id: id,
-    title: "Edit me",
+    title: "New Control",
   };
 
   const { data } = await axios.post(
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     updateTitle() {
-      this.setNewTitle(this.$refs.form$.data.title)
+      this.setNewTitle(this.$refs.form$.data.title);
     },
     handleEdit() {
       this.hazardEditable = true;
@@ -95,20 +95,28 @@ export default {
   <div>
     <div class="grid grid-cols-2 border-b-2 border-b-2 border-dashed">
       <div class="border-r-2">
-        <div v-if="editable" class="w-full flex flex-row justify-between">
-          <img src="/images/delete-button.png" @click="handleDelete" class="h-3" />
-          <img src="/images/edit.png" @click="handleEdit" class="h-3" />
+        <div class="flex flex-row-reverse justify-between pr-1">
+          <div
+            v-if="editable"
+            class="flex flex-col h-full space-y-2 py-1 justify-between cursor-pointer"
+            id="buttonContainer"
+          >
+            <img src="/images/edit.png" @click="handleEdit" class="h-3 w-3" />
+            <img src="/images/delete-button.png" @click="handleDelete" class="h-3 w-3" />
+            <div @click="addControl" class="bg-blue-600 p-1 rounded-full h-3 w-3"></div>
+          </div>
+          <div v-if="hazardEditable">
+            <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle">
+              <TextElement
+                name="title"
+                :placeholder="`${newTitle ? newTitle : title}`"
+                @keydown.esc="handleCancel"
+              />
+              <ButtonElement name="submit" submits class="invisible" />
+            </Vueform>
+          </div>
+          <div v-else>{{ newTitle ? newTitle : title }}</div>
         </div>
-        <div v-if="hazardEditable">
-          <Vueform :endpoint="false" rules="required" ref="form$" @submit="updateTitle"> 
-        <TextElement
-        name="title"
-        :placeholder="`${ newTitle ? newTitle : title}`"
-        @keydown.esc="handleCancel"/>
-        <ButtonElement name="submit" submits class="invisible"/>
-        </Vueform>
-        </div>
-        <div v-else>{{ newTitle ? newTitle : title }}</div>
       </div>
       <div class="h-full content-fit">
         <div v-for="(control, index) in listedControls" class="">
@@ -120,9 +128,6 @@ export default {
             @updateModal="updateModal"
           />
         </div>
-      </div>
-      <div v-if="editable">
-      <div @click="addControl" class="bg-blue-300 p-1 rounded-xl text-center text-xs mx-auto border-2 w-3/6">Add Control</div>
       </div>
     </div>
   </div>
