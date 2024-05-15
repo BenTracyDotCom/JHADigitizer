@@ -47,3 +47,18 @@ Start the Vite/Vue frontend with ```npm run dev```
 ## To run tests in the development environment:
 From root directory: `vendor/bin/sail test`
 
+# Using the app:
+
+![homepage](https://i.imgur.com/qY6W2NS.png)
+![viewJha](https://i.imgur.com/zNWM7My.png)
+![editJHA](https://i.imgur.com/vVPIGW0.png)
+![addStep](https://i.imgur.com/4GYepDK.png)
+![addText](https://i.imgur.com/0gm5sEd.png)
+![editingFinished](https://i.imgur.com/gVYCWd6.png)
+![updatedJha](https://i.imgur.com/a6F4L4Y.png)
+![addJha](https://i.imgur.com/kXKRfYk.png)
+![addStepsToNewJHA](https://i.imgur.com/xDsIkYg.png)
+![addedStepsToNewJha](https://i.imgur.com/EzJjZbL.png)
+![addHazardToNewJha](https://i.imgur.com/PAFhwtB.png)
+![addControlToNewJha](https://i.imgur.com/Zgb3IP6.png)
+![JhaAdded](https://i.imgur.com/w0Qa1oo.png)
