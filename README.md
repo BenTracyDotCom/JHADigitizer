@@ -44,21 +44,47 @@ In the terminal window, run `php artisan migrate` and, if desired, `php artisan 
 ### Spin up the frontend manager:
 Start the Vite/Vue frontend with ```npm run dev```
 ## Navigate to 'localhost' to view the app!
-## To run tests in the development environment:
-From root directory: `vendor/bin/sail test`
 
 # Using the app:
 
+If the database seeded correctly, the home page should look like this:
+
 ![homepage](https://i.imgur.com/qY6W2NS.png)
+
+
+## Viewing, Updating and Deleting JHA Forms
+When you click on any of the modal tiles, a modal appears with more detailed information:
+
 ![viewJha](https://i.imgur.com/zNWM7My.png)
+
+When you click "Edit Form", edit options appear on all editable fields, as well as a key to decipher the available options.
+
 ![editJHA](https://i.imgur.com/vVPIGW0.png)
+
+Once you add a new step/hazard/control, it creates a record with a default name. You'll have to click the "edit field" icon to change that name.
+
 ![addStep](https://i.imgur.com/4GYepDK.png)
 ![addText](https://i.imgur.com/0gm5sEd.png)
+While you're editing text, [ enter ] will submit the data, and [ esc ] will cancel your input and revert back to the original value.
+
+Once you've added all the steps/hazards/controls you wish, all of the associated records have been saved. You can click "Finish editing" to view the updated form.
 ![editingFinished](https://i.imgur.com/gVYCWd6.png)
 ![updatedJha](https://i.imgur.com/a6F4L4Y.png)
+
+Clicking the "Delete" button at any point will delete the JHA form.
+
+## Creating JHA Forms:
+
+WHen you click "Add a Job Hazard Analysis" from the home screen, the following dialog box appears requesting a job name and author:
 ![addJha](https://i.imgur.com/kXKRfYk.png)
+
+Once you submit the data, the form is created and you may add steps to the JHA.
 ![addStepsToNewJHA](https://i.imgur.com/xDsIkYg.png)
+
+You can add as many steps as you want before assigning Hazards, likewise Hazards to Controls.
 ![addedStepsToNewJha](https://i.imgur.com/EzJjZbL.png)
 ![addHazardToNewJha](https://i.imgur.com/PAFhwtB.png)
 ![addControlToNewJha](https://i.imgur.com/Zgb3IP6.png)
+
+When finished, you can select "Save & Exit" to see the updated list of JHA's with the newly created record at the top.
 ![JhaAdded](https://i.imgur.com/w0Qa1oo.png)
